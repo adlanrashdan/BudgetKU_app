@@ -1,16 +1,34 @@
-# flutter_application_1
+# BudgetKU
 
-A new Flutter project.
+Expense Manager Application using Flutter 
 
-## Getting Started
+Information Architecture 
 
-This project is a starting point for a Flutter application.
+<img src="/diagrams/information architecture nav.png" alt="Alt text" title="Optional title">
 
-A few resources to get you started if this is your first Flutter project:
+1. Welcome Page
+<img src="/diagrams/welcome page.png" alt="Alt text" title="Optional title">
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Login Page
+<img src="/diagrams/login page.png" alt="Alt text" title="Optional title">
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. Sign Up Page
+<img src="/diagrams/sign up page.png" alt="Alt text" title="Optional title">
+
+4. My Page
+<img src="/diagrams/mypage.png" alt="Alt text" title="Optional title">
+
+5. My Spending Page
+<img src="/diagrams/myspending.png" alt="Alt text" title="Optional title">
+
+6. My Spending Page (Add)
+<img src="/diagrams/myspending_add.png" alt="Alt text" title="Optional title">
+
+7. My Expense Page
+<img src="/diagrams/myexpense.png" alt="Alt text" title="Optional title">
+
+8. My Debt Page
+<img src="/diagrams/mydebt.png" alt="Alt text" title="Optional title">
+
+9. My Debt Page (Add)
+<img src="/diagrams/mydebt_add.png" alt="Alt text" title="Optional title">
