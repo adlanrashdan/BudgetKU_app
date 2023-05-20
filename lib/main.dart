@@ -27,7 +27,7 @@ class WelcomePage extends StatelessWidget {
               const Text(
                 'BUDGETKU', // Add app name under the logo
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
