@@ -456,7 +456,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
               // Step 3.
               value: dropdownValue,
               // Step 4.
-              items: <String>['January', 'Cat', 'Tiger', 'Lion']
+              items: <String>['January', 'February', 'March', 'April', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
