@@ -325,8 +325,9 @@ class _MyPageState extends State<MyPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    MySpendingPage(),
+    MyProfile(),
     MyExpensePage(),
+    MySpendingPage(),
     GroceriesCalculatorPage(),
     MyDebtPage(),
   ];
@@ -353,11 +354,15 @@ class _MyPageState extends State<MyPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            label: 'My Spending',
+            label: 'My Page',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.graphic_eq),
             label: 'My Expense',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit),
+            label: 'My Spending',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
@@ -374,14 +379,16 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
-class MySpendingPage extends StatelessWidget {
-  const MySpendingPage({super.key});
+
+
+class MyProfile extends StatelessWidget {
+  const MyProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('My Spending Page'),
+        child: Text('My Page'),
       ),
     );
   }
@@ -390,12 +397,24 @@ class MySpendingPage extends StatelessWidget {
 class MyExpensePage extends StatelessWidget {
   const MyExpensePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
         child: Text('My Expense Page'),
+      ),
+    );
+  }
+}
+
+class MySpendingPage extends StatelessWidget {
+  const MySpendingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text('My Spending Page'),
       ),
     );
   }
