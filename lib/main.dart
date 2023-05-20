@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         width: double.infinity, // Set the width to fill the entire available space
         height: double.infinity, // Set the height to fill the entire available space
-        color: const Color(0xFFCAFFDC), // Set the background color for the entire screen
+        color: const Color(0xFFFF), // Set the background color for the entire screen
         child: SingleChildScrollView(
           child:Center(child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -87,25 +87,27 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 50),
               const Text(
                 'Welcome !', // Welcome! - text
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
-              const SizedBox(height: 8), // Add spacing
+              const SizedBox(height: 27), // Add spacing
               const Text(
                 'Log in to', // Log in to - text
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8), // Add spacing
               const Text(
                 'BUDGETKU is simply', // BUDGETKU is simply - text
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 22,
                 ),
               ),
               const SizedBox(height: 16), // Add spacing
@@ -129,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8), // Add spacing
+              const SizedBox(height: 10), // Add spacing
               TextFormField( // Insert text box below, note: text can be hidden
                 obscureText: true,
                 decoration: InputDecoration(
@@ -137,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Enter your password',
                 ),
               ),
-              const SizedBox(height: 8), // Add spacing
+              const SizedBox(height: 10), // Add spacing
               Row(
                 children: [
                   Checkbox(
@@ -150,7 +152,9 @@ class _LoginPageState extends State<LoginPage> {
                   ), // Add check box, Remember Me - text
                   const Text('Remember Me'),
                   const Spacer(), // Add spacing
-                  TextButton(
+                  TextButton(style: TextButton.styleFrom(
+                    primary: Color(0xFF58906E), //<-- SEE HERE
+                    ),
                     onPressed: () {
                       // Forgot Password? - text only
                     },
@@ -158,11 +162,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16), // Add spacing
+              const SizedBox(height: 20), // Add spacing
               Center(
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF58906E), //<-- SEE HERE
+                    ),
                   onPressed: () {
-                    // Login Button (center)
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MyPage()),
@@ -177,6 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Text("Don't have an account?"),
                   TextButton(
+                    style: TextButton.styleFrom(
+                    primary: Color(0xFF58906E), //<-- SEE HERE
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -206,7 +215,7 @@ class SignUpPage extends StatelessWidget {
       body: Container(
         width: double.infinity, // Set the width to fill the entire available space
         height: double.infinity, // Set the height to fill the entire available space
-        color: const Color(0xFFCAFFDC), // Set the background color for the entire screen
+        color: Color.fromARGB(255, 253, 253, 253), // Set the background color for the entire screen
       child:SingleChildScrollView(
         child:Center(child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -214,28 +223,30 @@ class SignUpPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 20),
               const Text(
                 'Welcome !', // Welcome! - text
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
               const SizedBox(height: 8), // Add spacing
               const Text(
                 'Sign up to', // Sign up to - text
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8), // Add spacing
+              const SizedBox(height: 10), // Add spacing
               const Text(
                 'BUDGETKU is simply', // BUDGETKU is simply - text
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 16), // Add spacing
+              const SizedBox(height: 25), // Add spacing
               Text(
                 'Email', // Email - text
                 style: TextStyle(
@@ -296,6 +307,9 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 16), // Add spacing
               Center(
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF58906E), //<-- SEE HERE
+                    ),
                   onPressed: () {
                     // Register Button (center)
                     Navigator.push(
