@@ -4,6 +4,7 @@ void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
     home: WelcomePage(),
+    debugShowCheckedModeBanner: false,
   ));
 }
 class WelcomePage extends StatelessWidget {
@@ -373,7 +374,7 @@ class _MyPageState extends State<MyPage> {
             icon: Icon(Icons.graphic_eq),
             label: 'My Expense',
           ),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem(  
             icon: Icon(Icons.shopping_cart),
             label: 'Groceries',
           ),
@@ -429,17 +430,147 @@ class GroceriesCalculatorPage extends StatelessWidget {
   }
 }
 
-class MyDebtPage extends StatelessWidget {
-  const MyDebtPage({super.key});
+class MyDebtPage extends StatefulWidget {
+  const MyDebtPage({Key? key}) : super(key: key);
+  @override
+  State<MyDebtPage> createState() => _DropdownDemoState();
+  
+}
+class _DropdownDemoState extends State<MyDebtPage> {
+  String dropdownValue = 'January';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text('My Debt Page'),
+            SizedBox(
+              height: 50,
+            ),
+            // Step 2.
+               DropdownButton<String>(
+              // Step 3.
+              value: dropdownValue,
+              // Step 4.
+              items: <String>['January', 'Cat', 'Tiger', 'Lion']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: TextStyle(fontSize: 30),
+                  ),
+                );
+              }).toList(),
+              // Step 5.
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Selected Value: $dropdownValue',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Table",textScaleFactor: 2,style: TextStyle(fontWeight:FontWeight.bold),),
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Table(
+               columnWidths: {0: FractionColumnWidth(.3)},
+            // textDirection: TextDirection.rtl,
+            // defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+            // border:TableBorder.all(width: 2.0,color: Colors.red),
+            children: [
+              TableRow(
+                children: [
+                  Text("Dinner",textScaleFactor: 1.5,),
+                  Text("-5,000KRW",textScaleFactor: 1.5),
+                  Text("36,000 KRW",textScaleFactor: 1.5),
+                ]
+              ),
+               TableRow(
+                children: [
+                  Text("Travel",textScaleFactor: 1.5),
+                  Text("-100,000KRW",textScaleFactor: 1.5),
+                  Text("300,000 KRW",textScaleFactor: 1.5),
+                ]
+              ),
+              TableRow(
+                children: [
+                  Text("Dayout",textScaleFactor: 1.5),
+                  Text("+20,000KRW",textScaleFactor: 1.5),
+                  Text("40,000 KRW",textScaleFactor: 1.5),
+                ]
+              ),
+              TableRow(
+                children: [
+                  Text("Jeju Trip",textScaleFactor: 1.5),
+                  Text("-15,000KRW",textScaleFactor: 1.5),
+                  Text("50,000 KRW",textScaleFactor: 1.5),
+                ]
+              ),
+              TableRow(
+                children: [
+                  Text("Cafe",textScaleFactor: 1.5),
+                  Text("+5,000KRW",textScaleFactor: 1.5),
+                  Text("15,000 KRW",textScaleFactor: 1.5),
+                ]
+              ),
+          ], 
+        ),
+      ),
+      SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF58906E),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0), //<-- SEE HERE
+                    )),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddDebt()),
+                    );
+                  },
+                  child: const Text('+'),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class AddDebt extends StatefulWidget {
+  const AddDebt({super.key});
 
+  @override
+  _AddDebtState createState() => _AddDebtState();
+}
 
+class _AddDebtState extends State<AddDebt> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('My Debt Page'),
+        child: Text('Add Debt Page'),
       ),
     );
   }
+
 }
 
