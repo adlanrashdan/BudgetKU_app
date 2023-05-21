@@ -438,139 +438,378 @@ class MyDebtPage extends StatefulWidget {
 }
 class _DropdownDemoState extends State<MyDebtPage> {
   String dropdownValue = 'January';
+
   @override
   Widget build(BuildContext context) {
+    bool showTable = dropdownValue == 'January';
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            Text('My Debt Page'),
-            SizedBox(
-              height: 50,
-            ),
-            // Step 2.
-               DropdownButton<String>(
-              // Step 3.
+      body: ListView(
+        children: [
+          SizedBox(
+            height: 80,
+          ),
+          Center(
+            child: Text('My Debt Page'),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Center(
+            child: DropdownButton<String>(
               value: dropdownValue,
-              // Step 4.
-              items: <String>['January', 'February', 'March', 'April', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 30),
-                  ),
-                );
-              }).toList(),
-              // Step 5.
+              items: <String>[
+                'January',
+                'February',
+                'March',
+                'April',
+                'Jun',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+              ].map<DropdownMenuItem<String>>(
+                (String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  );
+                },
+              ).toList(),
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
                 });
               },
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Text(
               'Selected Value: $dropdownValue',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Table",textScaleFactor: 2,style: TextStyle(fontWeight:FontWeight.bold),),
           ),
-          
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Table(
-               columnWidths: {0: FractionColumnWidth(.3)},
-            // textDirection: TextDirection.rtl,
-            // defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
-            // border:TableBorder.all(width: 2.0,color: Colors.red),
-            children: [
-              TableRow(
-                children: [
-                  Text("Dinner",textScaleFactor: 1.5,),
-                  Text("-5,000KRW",textScaleFactor: 1.5),
-                  Text("36,000 KRW",textScaleFactor: 1.5),
-                ]
+            child: Center(
+              child: Text(
+                "Table",
+                textScaleFactor: 2,
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-               TableRow(
-                children: [
-                  Text("Travel",textScaleFactor: 1.5),
-                  Text("-100,000KRW",textScaleFactor: 1.5),
-                  Text("300,000 KRW",textScaleFactor: 1.5),
-                ]
-              ),
-              TableRow(
-                children: [
-                  Text("Dayout",textScaleFactor: 1.5),
-                  Text("+20,000KRW",textScaleFactor: 1.5),
-                  Text("40,000 KRW",textScaleFactor: 1.5),
-                ]
-              ),
-              TableRow(
-                children: [
-                  Text("Jeju Trip",textScaleFactor: 1.5),
-                  Text("-15,000KRW",textScaleFactor: 1.5),
-                  Text("50,000 KRW",textScaleFactor: 1.5),
-                ]
-              ),
-              TableRow(
-                children: [
-                  Text("Cafe",textScaleFactor: 1.5),
-                  Text("+5,000KRW",textScaleFactor: 1.5),
-                  Text("15,000 KRW",textScaleFactor: 1.5),
-                ]
-              ),
-          ], 
-        ),
-      ),
-      SizedBox(
-              height: 20,
             ),
-            Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF58906E),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0), //<-- SEE HERE
-                    )),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AddDebt()),
-                    );
-                  },
-                  child: const Text('+'),
+          ),
+          Visibility(
+            visible: !showTable,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('CarWash',textScaleFactor: 1.5),
+                          Text('12/6/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "-5,000KRW",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('25,000 KRW',textScaleFactor: 1.5),
+                          Text('Wani'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Shopping',textScaleFactor: 1.5),
+                          Text('19/6/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "-150,000KRW",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('500,000 KRW',textScaleFactor: 1.5),
+                          Text('Mimmy'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('MacDonald',textScaleFactor: 1.5),
+                          Text('30/6/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "(+20,000KRW)",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('33,000 KRW',textScaleFactor: 1.5),
+                          Text('Ritzy'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  
+                  
+                ],
+              ),
+            ),
+          ),
+         Visibility(
+            visible: showTable,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Dinner',textScaleFactor: 1.5),
+                          Text('12/1/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "-5,000KRW",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('36,000 KRW',textScaleFactor: 1.5),
+                          Text('Lisa'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Travel',textScaleFactor: 1.5),
+                          Text('19/1/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "-100,000KRW",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('300,000 KRW',textScaleFactor: 1.5),
+                          Text('Farid'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Dayout',textScaleFactor: 1.5),
+                          Text('21/1/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "(+20,000KRW)",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('40,000 KRW',textScaleFactor: 1.5),
+                          Text('Karina'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Jeju Trip',textScaleFactor: 1.5),
+                          Text('25/1/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "(-15,000KRW)",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('50,000 KRW',textScaleFactor: 1.5),
+                          Text('Max'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text('Cafe',textScaleFactor: 1.5),
+                          Text('27/1/2023'),
+                        ],
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "(+5,000KRW)",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text('15,000 KRW',textScaleFactor: 1.5),
+                          Text('Maryy'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF58906E),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
-          ],
-        ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddDebt()),
+                );
+              },
+              child: const Text('+'),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+        ],
       ),
     );
   }
 }
-class AddDebt extends StatefulWidget {
+
+
+
+
+class AddDebt extends StatelessWidget {
   const AddDebt({super.key});
 
-  @override
-  _AddDebtState createState() => _AddDebtState();
-}
-
-class _AddDebtState extends State<AddDebt> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text('Add Debt Page'),
+        child: Text('AddDebt'),
       ),
     );
   }
-
 }
 
