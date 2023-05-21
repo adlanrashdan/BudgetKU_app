@@ -130,7 +130,7 @@ class _WelcomePageState extends State<WelcomePage>
 
 class LoginPage extends StatefulWidget  {
   const LoginPage({super.key});
- @override
+  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -182,7 +182,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 8), // Add spacing
-              TextFormField( // Insert text box below
+              TextFormField(
+                // Insert text box below
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Enter your username',
@@ -208,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Checkbox(
                     value: rememberMe,
-                    onChanged: (value){
+                    onChanged: (value) {
                       setState(() {
                         rememberMe = value!;
                       });
@@ -253,7 +254,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpPage()),
                       );
                     },
                     child: const Text('Register'),
@@ -262,9 +264,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-              )
-          
-        ),
+        )),
       ),
     ));
   }
@@ -273,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -403,8 +403,9 @@ class _MyPageState extends State<MyPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    MySpendingPage(),
+    MyProfile(),
     MyExpensePage(),
+    MySpendingPage(),
     GroceriesCalculatorPage(),
     MyDebtPage(),
   ];
@@ -412,42 +413,219 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Container(
-        color: const Color(0xFFCAFFDC), // Set the background color
-        child: _pages[_currentIndex],
-      ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: const Color(0xFF58906E), // Set the background color of the BottomNavigationBar
+        body: Container(
+          color: const Color(0xFFCAFFDC), // Set the background color
+          child: _pages[_currentIndex],
         ),
-        child:BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'My Spending',
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: const Color(
+                0xFF58906E), // Set the background color of the BottomNavigationBar
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.graphic_eq),
-            label: 'My Expense',
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                label: 'My Page',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.graphic_eq),
+                label: 'My Expense',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.edit),
+                label: 'My Spending',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Groceries',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.attach_money),
+                label: 'My Debt',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(  
-            icon: Icon(Icons.shopping_cart),
-            label: 'Groceries',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'My Debt',
-          ),
-        ],
+        ));
+  }
+}
+
+class MyProfile extends StatefulWidget {
+  const MyProfile({super.key});
+  @override
+  _MyProfileState createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+  bool alarmOn = false;
+  Color alarmColor=Colors.grey;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+            width: double
+                .infinity, // Set the width to fill the entire available space
+            height: double
+                .infinity, // Set the height to fill the entire available space
+            color: const Color(
+                0xFFCAFFDC), // Set the background color for the entire screen
+            child: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'My Page',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Row(
+                        children: [
+                          // CircleAvatar(
+                          //   radius:
+                          //       50, // Adjust the radius to control the size of the circular image
+                          //   backgroundImage: AssetImage('assets/images/jessica.png'), // Replace with your image asset path
+                          // ),
+                          Icon(Icons.people, size: 50),
+                          SizedBox(
+                              width:
+                                  20), // Add some spacing between the icon and text
+                          const Text(
+                            'Jessica',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 12), // Add spacing
+                      const Text(
+                        'Edit profile',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12), // Add spacing
+                      const Text(
+                        'Username', // Username - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your username',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Text(
+                        'Password', // Password - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below, note: text can be hidden
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your password',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Text(
+                        'Confirm Password', // Confirm Password - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below, note: text can be hidden
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Confirm your password',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      const Text(
+                        'Email', // Email - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your email',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Row(
+                        children: [
+                          Text(
+                            'Push Notifications',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                              width:
+                                  178), // Add some spacing between the icon and text
+                          InkWell(
+                            child: Icon(
+                                alarmOn ? Icons.toggle_on : Icons.toggle_off,
+                                size: 50,color: alarmColor,),
+                            onTap: () {
+                              setState(() {
+                                alarmOn = !alarmOn;
+                                alarmColor = alarmColor == Colors.black ? Colors.grey : Colors.black;
+                              });
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )));
+  }
+}
+
+class MyExpensePage extends StatelessWidget {
+  const MyExpensePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text('My Expense Page'),
       ),
-    )
     );
   }
 }
@@ -465,23 +643,8 @@ class MySpendingPage extends StatelessWidget {
   }
 }
 
-class MyExpensePage extends StatelessWidget {
-  const MyExpensePage({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('My Expense Page'),
-      ),
-    );
-  }
-}
-
 class GroceriesCalculatorPage extends StatelessWidget {
   const GroceriesCalculatorPage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -493,124 +656,8 @@ class GroceriesCalculatorPage extends StatelessWidget {
   }
 }
 
-class MyDebtPage extends StatefulWidget {
-  const MyDebtPage({Key? key}) : super(key: key);
-  @override
-  State<MyDebtPage> createState() => _DropdownDemoState();
-  
-}
-class _DropdownDemoState extends State<MyDebtPage> {
-  String dropdownValue = 'January';
-  List<TableRow> tableRows = [
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('CarWash', textScaleFactor: 1.5),
-          Text('12/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(-5,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.red,
-            ),
-          ),
-        ),
-      ),
-      Column(
-        children: [
-          Text('25,000 KRW', textScaleFactor: 1.5),
-          Text('Wani'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('Shopping', textScaleFactor: 1.5),
-          Text('19/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(-150,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.red,
-            ),
-          ),
-        ),
-      ),
-      Column(
-        children: [
-          Text('500,000 KRW', textScaleFactor: 1.5),
-          Text('Mimmy'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('MacDonald', textScaleFactor: 1.5),
-          Text('30/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(+20,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.green,
-            ),
-          ),
-        ),
-      ),
-      Column(
-        children: [
-          Text('33,000 KRW', textScaleFactor: 1.5),
-          Text('Kiki'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-];
+class MyDebtPage extends StatelessWidget {
+  const MyDebtPage({super.key});
 
 
   @override
