@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 
 void main() {
   runApp(const MaterialApp(
@@ -7,63 +9,124 @@ void main() {
     debugShowCheckedModeBanner: false,
   ));
 }
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color(0xFFCAFFDC), // Set the background color to #caffdc
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/app_logo.png', // Update to the path of your custom image
-                width: 120,
-                height: 120,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFCAFFDC),
+                  Color(0xFFCAFFDC),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              const SizedBox(height: 8), // Add some spacing
-              const Text(
-                'BUDGETKU', // Add app name under the logo
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8), // Add some spacing
-              const Text(
-                'Manage money easily and conveniently!', // Add slogan under the app name
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8), // Add some spacing
-              InkWell(
-                child: Text(
-                  'TAP TO CONTINUE', // Show text instead of a button
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: const Color(0xFF58906E), // Set text color to #58906e
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FadeTransition(
+                  opacity: _animation,
+                  child: Image.asset(
+                    'assets/images/app_logo.png',
+                    width: 160,
+                    height: 160,
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                  );
-                },
-              ),
-            ],
+                const SizedBox(height: 32),
+                Text(
+                  'BUDGETKU',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF58906E),
+                    letterSpacing: 2.0,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Manage your money with ease',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color:Color(0xFF58906E),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Container(
+                  width: 200,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                    },
+                    child: Center(
+                      child: Text(
+                        'GET STARTED',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF58906E),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
+
+
 
 class LoginPage extends StatefulWidget  {
   const LoginPage({super.key});
@@ -438,6 +501,117 @@ class MyDebtPage extends StatefulWidget {
 }
 class _DropdownDemoState extends State<MyDebtPage> {
   String dropdownValue = 'January';
+  List<TableRow> tableRows = [
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('CarWash', textScaleFactor: 1.5),
+          Text('12/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(-5,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('25,000 KRW', textScaleFactor: 1.5),
+          Text('Wani'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('Shopping', textScaleFactor: 1.5),
+          Text('19/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(-150,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('500,000 KRW', textScaleFactor: 1.5),
+          Text('Mimmy'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('MacDonald', textScaleFactor: 1.5),
+          Text('30/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(+20,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.green,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('33,000 KRW', textScaleFactor: 1.5),
+          Text('Kiki'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+];
+
 
   @override
   Widget build(BuildContext context) {
@@ -445,15 +619,11 @@ class _DropdownDemoState extends State<MyDebtPage> {
     return Scaffold(
       body: ListView(
         children: [
-          SizedBox(
-            height: 80,
-          ),
+          SizedBox(height: 80),
           Center(
             child: Text('My Debt Page'),
           ),
-          SizedBox(
-            height: 50,
-          ),
+          SizedBox(height: 50),
           Center(
             child: DropdownButton<String>(
               value: dropdownValue,
@@ -462,6 +632,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                 'February',
                 'March',
                 'April',
+                'May',
                 'Jun',
                 'July',
                 'August',
@@ -487,9 +658,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
               },
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Center(
             child: Text(
               'Selected Value: $dropdownValue',
@@ -512,103 +681,12 @@ class _DropdownDemoState extends State<MyDebtPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Divider(color: Colors.grey),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text('CarWash',textScaleFactor: 1.5),
-                          Text('12/6/2023'),
-                        ],
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "-5,000KRW",
-                            textScaleFactor: 1.3,
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          Text('25,000 KRW',textScaleFactor: 1.5),
-                          Text('Wani'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(color: Colors.grey),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text('Shopping',textScaleFactor: 1.5),
-                          Text('19/6/2023'),
-                        ],
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "-150,000KRW",
-                            textScaleFactor: 1.3,
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          Text('500,000 KRW',textScaleFactor: 1.5),
-                          Text('Mimmy'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(color: Colors.grey),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text('MacDonald',textScaleFactor: 1.5),
-                          Text('30/6/2023'),
-                        ],
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "(+20,000KRW)",
-                            textScaleFactor: 1.3,
-                            style: TextStyle(
-                              color: Colors.green,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          Text('33,000 KRW',textScaleFactor: 1.5),
-                          Text('Ritzy'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  
-                  
+                  ...tableRows.map((row) => Row(children: row.children)),
                 ],
               ),
             ),
           ),
-         Visibility(
+          Visibility(
             visible: showTable,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -621,14 +699,14 @@ class _DropdownDemoState extends State<MyDebtPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Dinner',textScaleFactor: 1.5),
+                          Text('Dinner', textScaleFactor: 1.5),
                           Text('12/1/2023'),
                         ],
                       ),
                       Expanded(
                         child: Center(
                           child: Text(
-                            "-5,000KRW",
+                            "(-5,000KRW)",
                             textScaleFactor: 1.3,
                             style: TextStyle(
                               color: Colors.red,
@@ -638,7 +716,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                       ),
                       Column(
                         children: [
-                          Text('36,000 KRW',textScaleFactor: 1.5),
+                          Text('36,000 KRW', textScaleFactor: 1.5),
                           Text('Lisa'),
                         ],
                       ),
@@ -651,14 +729,14 @@ class _DropdownDemoState extends State<MyDebtPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Travel',textScaleFactor: 1.5),
+                          Text('Travel', textScaleFactor: 1.5),
                           Text('19/1/2023'),
                         ],
                       ),
                       Expanded(
                         child: Center(
                           child: Text(
-                            "-100,000KRW",
+                            "(-100,000KRW)",
                             textScaleFactor: 1.3,
                             style: TextStyle(
                               color: Colors.red,
@@ -668,7 +746,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                       ),
                       Column(
                         children: [
-                          Text('300,000 KRW',textScaleFactor: 1.5),
+                          Text('300,000 KRW', textScaleFactor: 1.5),
                           Text('Farid'),
                         ],
                       ),
@@ -681,7 +759,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Dayout',textScaleFactor: 1.5),
+                          Text('Dayout', textScaleFactor: 1.5),
                           Text('21/1/2023'),
                         ],
                       ),
@@ -698,7 +776,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                       ),
                       Column(
                         children: [
-                          Text('40,000 KRW',textScaleFactor: 1.5),
+                          Text('40,000 KRW', textScaleFactor: 1.5),
                           Text('Karina'),
                         ],
                       ),
@@ -711,7 +789,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Jeju Trip',textScaleFactor: 1.5),
+                          Text('Jeju Trip', textScaleFactor: 1.5),
                           Text('25/1/2023'),
                         ],
                       ),
@@ -728,7 +806,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                       ),
                       Column(
                         children: [
-                          Text('50,000 KRW',textScaleFactor: 1.5),
+                          Text('50,000 KRW', textScaleFactor: 1.5),
                           Text('Max'),
                         ],
                       ),
@@ -741,7 +819,7 @@ class _DropdownDemoState extends State<MyDebtPage> {
                     children: [
                       Column(
                         children: [
-                          Text('Cafe',textScaleFactor: 1.5),
+                          Text('Cafe', textScaleFactor: 1.5),
                           Text('27/1/2023'),
                         ],
                       ),
@@ -758,12 +836,15 @@ class _DropdownDemoState extends State<MyDebtPage> {
                       ),
                       Column(
                         children: [
-                          Text('15,000 KRW',textScaleFactor: 1.5),
+                          Text('15,000 KRW', textScaleFactor: 1.5),
                           Text('Maryy'),
                         ],
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
+                  Divider(color: Colors.grey),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -779,12 +860,145 @@ class _DropdownDemoState extends State<MyDebtPage> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddDebt()),
+              onPressed: () async {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController totalAmountController = TextEditingController();
+  TextEditingController personController = TextEditingController();
+  String selectedSign = '+'; // Track the selected sign
+
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Add New Debt Record'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                ),
+              ),
+              Row(
+                children: [
+                  DropdownButton<String>(
+                    value: selectedSign,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedSign = value ?? '+';
+                      });
+                    },
+                    items: <DropdownMenuItem<String>>[
+                      DropdownMenuItem<String>(
+                        value: '+',
+                        child: Text(
+                          '+',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: '-',
+                        child: Text(
+                          '-',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              TextField(
+                controller: amountController,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+                ],
+              ),
+              TextField(
+                controller: totalAmountController,
+                decoration: InputDecoration(
+                  labelText: 'Total Amount',
+                ),
+              ),
+              TextField(
+                controller: personController,
+                decoration: InputDecoration(
+                  labelText: 'Person',
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                String title = titleController.text;
+                String amount = amountController.text;
+                String totalamount = totalAmountController.text;
+                String person = personController.text;
+
+                amount = selectedSign == '+' ? '(+$amount' : '(-$amount';
+
+                DateTime now = DateTime.now();
+                String date = '${now.day}/${now.month}/${now.year}';
+
+                TableRow newRow = TableRow(
+                  children: [
+                    Column(
+                      children: [
+                        Text(title, textScaleFactor: 1.5),
+                        Text(date),
+                      ],
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          '$amount KRW)',
+                          textScaleFactor: 1.3,
+                          style: TextStyle(
+                            color: selectedSign == '+' ? Colors.green : Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Text('$totalamount' + ' KRW', textScaleFactor: 1.5),
+                        Text(person),
+                      ],
+                    ),
+                  ],
                 );
-              },
+
+                tableRows.add(newRow);
+
+                titleController.clear();
+                amountController.clear();
+                totalAmountController.clear();
+                personController.clear();
+
+                Navigator.pop(context);
+              });
+            },
+            child: Text('Add'),
+          ),
+        ],
+      );
+    },
+  );
+},          
               child: const Text('+'),
             ),
           ),
@@ -800,16 +1014,5 @@ class _DropdownDemoState extends State<MyDebtPage> {
 
 
 
-class AddDebt extends StatelessWidget {
-  const AddDebt({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('AddDebt'),
-      ),
-    );
-  }
-}
 
