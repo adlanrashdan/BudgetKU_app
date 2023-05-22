@@ -656,9 +656,126 @@ class GroceriesCalculatorPage extends StatelessWidget {
   }
 }
 
-class MyDebtPage extends StatelessWidget {
-  const MyDebtPage({super.key});
-
+// class MyDebtPage extends StatelessWidget {
+//   const MyDebtPage({super.key});
+class MyDebtPage extends StatefulWidget {
+  const MyDebtPage({Key? key}) : super(key: key);
+  @override
+  State<MyDebtPage> createState() => _DropdownDemoState();
+  
+}
+class _DropdownDemoState extends State<MyDebtPage> {
+  String dropdownValue = 'January';
+  List<TableRow> tableRows = [
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('CarWash', textScaleFactor: 1.5),
+          Text('12/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(-5,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('25,000 KRW', textScaleFactor: 1.5),
+          Text('Wani'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('Shopping', textScaleFactor: 1.5),
+          Text('19/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(-150,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('500,000 KRW', textScaleFactor: 1.5),
+          Text('Mimmy'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Column(
+        children: [
+          Text('MacDonald', textScaleFactor: 1.5),
+          Text('30/6/2023'),
+        ],
+      ),
+      Expanded(
+        child: Center(
+          child: Text(
+            "(+20,000KRW)",
+            textScaleFactor: 1.3,
+            style: TextStyle(
+              color: Colors.green,
+            ),
+          ),
+        ),
+      ),
+      Column(
+        children: [
+          Text('33,000 KRW', textScaleFactor: 1.5),
+          Text('Kiki'),
+        ],
+      ),
+    ],
+  ),
+  TableRow(
+    children: [
+      Container(
+        height: 1, // Height of the line
+        color: Colors.grey, // Color of the line
+        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
+      ),
+    ],
+  ),
+];
 
   @override
   Widget build(BuildContext context) {
