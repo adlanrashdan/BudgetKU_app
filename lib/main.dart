@@ -815,8 +815,8 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Settle Debt'),
-                                        content: Text('Have you settled this debt?'),
+                                        title: Text('Confirmation'),
+                                        content: Text('Have you settled it?'),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
