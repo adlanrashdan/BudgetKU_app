@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
@@ -9,6 +8,7 @@ void main() {
     debugShowCheckedModeBanner: false,
   ));
 }
+
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -87,7 +87,7 @@ class _WelcomePageState extends State<WelcomePage>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
-                    color:Color(0xFF58906E),
+                    color: Color(0xFF58906E),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -102,7 +102,8 @@ class _WelcomePageState extends State<WelcomePage>
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
                       );
                     },
                     child: Center(
@@ -126,9 +127,7 @@ class _WelcomePageState extends State<WelcomePage>
   }
 }
 
-
-
-class LoginPage extends StatefulWidget  {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -140,14 +139,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity, // Set the width to fill the entire available space
-        height: double.infinity, // Set the height to fill the entire available space
-        color: const Color(0xFFFF), // Set the background color for the entire screen
-        child: SingleChildScrollView(
-          child:Center(child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+        body: Container(
+      width:
+          double.infinity, // Set the width to fill the entire available space
+      height:
+          double.infinity, // Set the height to fill the entire available space
+      color:
+          const Color(0xFFFF), // Set the background color for the entire screen
+      child: SingleChildScrollView(
+        child: Center(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -197,7 +200,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 10), // Add spacing
-              TextFormField( // Insert text box below, note: text can be hidden
+              TextFormField(
+                // Insert text box below, note: text can be hidden
                 obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -217,8 +221,9 @@ class _LoginPageState extends State<LoginPage> {
                   ), // Add check box, Remember Me - text
                   const Text('Remember Me'),
                   const Spacer(), // Add spacing
-                  TextButton(style: TextButton.styleFrom(
-                    primary: Color(0xFF58906E), //<-- SEE HERE
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Color(0xFF58906E), //<-- SEE HERE
                     ),
                     onPressed: () {
                       // Forgot Password? - text only
@@ -232,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF58906E), //<-- SEE HERE
-                    ),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -249,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                   const Text("Don't have an account?"),
                   TextButton(
                     style: TextButton.styleFrom(
-                    primary: Color(0xFF58906E), //<-- SEE HERE
+                      primary: Color(0xFF58906E), //<-- SEE HERE
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -276,119 +281,128 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity, // Set the width to fill the entire available space
-        height: double.infinity, // Set the height to fill the entire available space
-        color: Color.fromARGB(255, 253, 253, 253), // Set the background color for the entire screen
-      child:SingleChildScrollView(
-        child:Center(child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Welcome !', // Welcome! - text
-                style: TextStyle(
-                  fontSize: 30,
-                  fontStyle: FontStyle.italic,
+        body: Container(
+            width: double
+                .infinity, // Set the width to fill the entire available space
+            height: double
+                .infinity, // Set the height to fill the entire available space
+            color: Color.fromARGB(255, 253, 253,
+                253), // Set the background color for the entire screen
+            child: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Welcome !', // Welcome! - text
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      const Text(
+                        'Sign up to', // Sign up to - text
+                        style: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10), // Add spacing
+                      const Text(
+                        'BUDGETKU is simply', // BUDGETKU is simply - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 25), // Add spacing
+                      Text(
+                        'Email', // Email - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your email',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Text(
+                        'Username', // Username - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your username',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Text(
+                        'Password', // Password - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below, note: text can be hidden
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your password',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Text(
+                        'Confirm Password', // Confirm Password - text
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8), // Add spacing
+                      TextFormField(
+                        // Insert text box below, note: text can be hidden
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Confirm your password',
+                        ),
+                      ),
+                      const SizedBox(height: 16), // Add spacing
+                      Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF58906E), //<-- SEE HERE
+                          ),
+                          onPressed: () {
+                            // Register Button (center)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyPage()),
+                            );
+                          },
+                          child: const Text('Register'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 8), // Add spacing
-              const Text(
-                'Sign up to', // Sign up to - text
-                style: TextStyle(
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10), // Add spacing
-              const Text(
-                'BUDGETKU is simply', // BUDGETKU is simply - text
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 25), // Add spacing
-              Text(
-                'Email', // Email - text
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8), // Add spacing
-              TextFormField( // Insert text box below
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your email',
-                ),
-              ),
-              const SizedBox(height: 16), // Add spacing
-              Text(
-                'Username', // Username - text
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8), // Add spacing
-              TextFormField( // Insert text box below
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your username',
-                ),
-              ),
-              const SizedBox(height: 16), // Add spacing
-              Text(
-                'Password', // Password - text
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8), // Add spacing
-              TextFormField( // Insert text box below, note: text can be hidden
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter your password',
-                ),
-              ),
-              const SizedBox(height: 16), // Add spacing
-              Text(
-                'Confirm Password', // Confirm Password - text
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8), // Add spacing
-              TextFormField( // Insert text box below, note: text can be hidden
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Confirm your password',
-                ),
-              ),
-              const SizedBox(height: 16), // Add spacing
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF58906E), //<-- SEE HERE
-                    ),
-                  onPressed: () {
-                    // Register Button (center)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MyPage()),
-                    );
-                  },
-                  child: const Text('Register'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    )));
+            )));
   }
 }
 
@@ -464,7 +478,16 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   bool alarmOn = false;
-  Color alarmColor=Colors.grey;
+  Color alarmColor = Colors.grey;
+  bool showProfileFields = false; // Flag to control visibility
+
+  final List<User> userList = [
+    User('Jessica', 'jessicainseoul@gmail.com', 'jessica1',
+        Icons.wallet_giftcard_rounded),
+    User('Johny', 'johnyfriends@gmail.com', 'johny2', Icons.money),
+    User('Max', 'maxfarmer@gmail.com', 'max3', Icons.handyman_outlined),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -483,28 +506,38 @@ class _MyProfileState extends State<MyProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'My Page',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                      Center(
+                        child: Text(
+                          'My Page',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1B5E20),
+                          ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      Divider(
+                        height: 1,
+                        color: Color(0xFF1B5E20),
+                      ),
                       const SizedBox(height: 16), // Add spacing
+
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // CircleAvatar(
                           //   radius:
                           //       50, // Adjust the radius to control the size of the circular image
                           //   backgroundImage: AssetImage('assets/images/jessica.png'), // Replace with your image asset path
                           // ),
-                          Icon(Icons.people, size: 50),
+                          Icon(userList[0].icon, size: 50),
                           SizedBox(
                               width:
                                   20), // Add some spacing between the icon and text
-                          const Text(
-                            'Jessica',
+                          Text(
+                            userList[0].name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -514,73 +547,99 @@ class _MyProfileState extends State<MyProfile> {
                       ),
 
                       const SizedBox(height: 12), // Add spacing
-                      const Text(
-                        'Edit profile',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12), // Add spacing
-                      const Text(
-                        'Username', // Username - text
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8), // Add spacing
-                      TextFormField(
-                        // Insert text box below
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your username',
+                      Center(
+                        child: Text(
+                          userList[0].email,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16), // Add spacing
-                      Text(
-                        'Password', // Password - text
-                        style: TextStyle(
-                          fontSize: 16,
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            showProfileFields =
+                                !showProfileFields; // Toggle visibility
+                          });
+                        },
+                        child: const Text(
+                          'Edit profile',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8), // Add spacing
-                      TextFormField(
-                        // Insert text box below, note: text can be hidden
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your password',
-                        ),
-                      ),
-                      const SizedBox(height: 16), // Add spacing
-                      Text(
-                        'Confirm Password', // Confirm Password - text
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8), // Add spacing
-                      TextFormField(
-                        // Insert text box below, note: text can be hidden
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Confirm your password',
-                        ),
-                      ),
-                      const SizedBox(height: 16), // Add spacing
-                      const Text(
-                        'Email', // Email - text
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8), // Add spacing
-                      TextFormField(
-                        // Insert text box below
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your email',
+                      const SizedBox(height: 8),
+                      Visibility(
+                        visible: showProfileFields, // Control visibility
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Username', // Username - text
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8), // Add spacing
+                            TextFormField(
+                              // Insert text box below
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your new username',
+                              ),
+                            ),
+                            const SizedBox(height: 16), // Add spacing
+                            Text(
+                              'Password', // Password - text
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8), // Add spacing
+                            TextFormField(
+                              // Insert text box below, note: text can be hidden
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your new password',
+                              ),
+                            ),
+                            const SizedBox(height: 16), // Add spacing
+                            Text(
+                              'Confirm Password', // Confirm Password - text
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8), // Add spacing
+                            TextFormField(
+                              // Insert text box below, note: text can be hidden
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Confirm your password',
+                              ),
+                            ),
+                            const SizedBox(height: 16), // Add spacing
+                            const Text(
+                              'Email', // Email - text
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8), // Add spacing
+                            TextFormField(
+                              // Insert text box below
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your new email',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16), // Add spacing
@@ -595,15 +654,19 @@ class _MyProfileState extends State<MyProfile> {
                           ),
                           SizedBox(
                               width:
-                                  178), // Add some spacing between the icon and text
+                                  100), // Add some spacing between the icon and text
                           InkWell(
                             child: Icon(
-                                alarmOn ? Icons.toggle_on : Icons.toggle_off,
-                                size: 50,color: alarmColor,),
+                              alarmOn ? Icons.toggle_on : Icons.toggle_off,
+                              size: 50,
+                              color: alarmColor,
+                            ),
                             onTap: () {
                               setState(() {
                                 alarmOn = !alarmOn;
-                                alarmColor = alarmColor == Colors.black ? Colors.grey : Colors.black;
+                                alarmColor = alarmColor == Colors.black
+                                    ? Colors.grey
+                                    : Colors.black;
                               });
                             },
                           )
@@ -615,6 +678,15 @@ class _MyProfileState extends State<MyProfile> {
               ),
             )));
   }
+}
+
+class User {
+  final String name;
+  final String email;
+  final String password;
+  final IconData icon;
+
+  User(this.name, this.email, this.password, this.icon);
 }
 
 class MyExpensePage extends StatelessWidget {
@@ -630,16 +702,51 @@ class MyExpensePage extends StatelessWidget {
   }
 }
 
-class MySpendingPage extends StatelessWidget {
-  const MySpendingPage({super.key});
+// class MySpendingPage extends StatelessWidget {
+//   const MySpendingPage({super.key});
 
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+
+class MySpendingPage extends StatefulWidget {
+  const MySpendingPage({super.key});
+  @override
+  _MySpendingPageState createState() => _MySpendingPageState();
+}
+
+class _MySpendingPageState extends State<MySpendingPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('My Spending Page'),
-      ),
-    );
+    return Scaffold(
+        body: Container(
+            width: double
+                .infinity, // Set the width to fill the entire available space
+            height: double
+                .infinity, // Set the height to fill the entire available space
+            color: const Color(
+                0xFFCAFFDC), // Set the background color for the entire screen
+            child: SingleChildScrollView(
+                child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'My Spending',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1B5E20),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ))));
   }
 }
 
@@ -662,120 +769,123 @@ class MyDebtPage extends StatefulWidget {
   const MyDebtPage({Key? key}) : super(key: key);
   @override
   State<MyDebtPage> createState() => _DropdownDemoState();
-  
 }
+
 class _DropdownDemoState extends State<MyDebtPage> {
   String dropdownValue = 'January';
   List<TableRow> tableRows = [
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('CarWash', textScaleFactor: 1.5),
-          Text('12/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(-5,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.red,
+    TableRow(
+      children: [
+        Column(
+          children: [
+            Text('CarWash', textScaleFactor: 1.5),
+            Text('12/6/2023'),
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              "(-5,000KRW)",
+              textScaleFactor: 1.3,
+              style: TextStyle(
+                color: Colors.red,
+              ),
             ),
           ),
         ),
-      ),
-      Column(
-        children: [
-          Text('25,000 KRW', textScaleFactor: 1.5),
-          Text('Wani'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('Shopping', textScaleFactor: 1.5),
-          Text('19/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(-150,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.red,
+        Column(
+          children: [
+            Text('25,000 KRW', textScaleFactor: 1.5),
+            Text('Wani'),
+          ],
+        ),
+      ],
+    ),
+    TableRow(
+      children: [
+        Container(
+          height: 1, // Height of the line
+          color: Colors.grey, // Color of the line
+          margin: const EdgeInsets.symmetric(
+              vertical: 8.0), // Adjust the spacing around the line
+        ),
+      ],
+    ),
+    TableRow(
+      children: [
+        Column(
+          children: [
+            Text('Shopping', textScaleFactor: 1.5),
+            Text('19/6/2023'),
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              "(-150,000KRW)",
+              textScaleFactor: 1.3,
+              style: TextStyle(
+                color: Colors.red,
+              ),
             ),
           ),
         ),
-      ),
-      Column(
-        children: [
-          Text('500,000 KRW', textScaleFactor: 1.5),
-          Text('Mimmy'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Column(
-        children: [
-          Text('MacDonald', textScaleFactor: 1.5),
-          Text('30/6/2023'),
-        ],
-      ),
-      Expanded(
-        child: Center(
-          child: Text(
-            "(+20,000KRW)",
-            textScaleFactor: 1.3,
-            style: TextStyle(
-              color: Colors.green,
+        Column(
+          children: [
+            Text('500,000 KRW', textScaleFactor: 1.5),
+            Text('Mimmy'),
+          ],
+        ),
+      ],
+    ),
+    TableRow(
+      children: [
+        Container(
+          height: 1, // Height of the line
+          color: Colors.grey, // Color of the line
+          margin: const EdgeInsets.symmetric(
+              vertical: 8.0), // Adjust the spacing around the line
+        ),
+      ],
+    ),
+    TableRow(
+      children: [
+        Column(
+          children: [
+            Text('MacDonald', textScaleFactor: 1.5),
+            Text('30/6/2023'),
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              "(+20,000KRW)",
+              textScaleFactor: 1.3,
+              style: TextStyle(
+                color: Colors.green,
+              ),
             ),
           ),
         ),
-      ),
-      Column(
-        children: [
-          Text('33,000 KRW', textScaleFactor: 1.5),
-          Text('Kiki'),
-        ],
-      ),
-    ],
-  ),
-  TableRow(
-    children: [
-      Container(
-        height: 1, // Height of the line
-        color: Colors.grey, // Color of the line
-        margin: const EdgeInsets.symmetric(vertical: 8.0), // Adjust the spacing around the line
-      ),
-    ],
-  ),
-];
+        Column(
+          children: [
+            Text('33,000 KRW', textScaleFactor: 1.5),
+            Text('Kiki'),
+          ],
+        ),
+      ],
+    ),
+    TableRow(
+      children: [
+        Container(
+          height: 1, // Height of the line
+          color: Colors.grey, // Color of the line
+          margin: const EdgeInsets.symmetric(
+              vertical: 8.0), // Adjust the spacing around the line
+        ),
+      ],
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -1025,144 +1135,154 @@ class _DropdownDemoState extends State<MyDebtPage> {
                 ),
               ),
               onPressed: () async {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
-  TextEditingController totalAmountController = TextEditingController();
-  TextEditingController personController = TextEditingController();
-  String selectedSign = '+'; // Track the selected sign
+                TextEditingController titleController = TextEditingController();
+                TextEditingController amountController =
+                    TextEditingController();
+                TextEditingController totalAmountController =
+                    TextEditingController();
+                TextEditingController personController =
+                    TextEditingController();
+                String selectedSign = '+'; // Track the selected sign
 
-  await showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Add New Debt Record'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                ),
-              ),
-              Row(
-                children: [
-                  DropdownButton<String>(
-                    value: selectedSign,
-                    onChanged: (String? value) {
-                      setState(() {
-                        selectedSign = value ?? '+';
-                      });
-                    },
-                    items: <DropdownMenuItem<String>>[
-                      DropdownMenuItem<String>(
-                        value: '+',
-                        child: Text(
-                          '+',
-                          style: TextStyle(color: Colors.green),
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Add New Debt Record'),
+                      content: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: titleController,
+                              decoration: InputDecoration(
+                                labelText: 'Title',
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                DropdownButton<String>(
+                                  value: selectedSign,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      selectedSign = value ?? '+';
+                                    });
+                                  },
+                                  items: <DropdownMenuItem<String>>[
+                                    DropdownMenuItem<String>(
+                                      value: '+',
+                                      child: Text(
+                                        '+',
+                                        style: TextStyle(color: Colors.green),
+                                      ),
+                                    ),
+                                    DropdownMenuItem<String>(
+                                      value: '-',
+                                      child: Text(
+                                        '-',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            TextField(
+                              controller: amountController,
+                              decoration: InputDecoration(
+                                labelText: 'Amount',
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^-?\d*\.?\d*')),
+                              ],
+                            ),
+                            TextField(
+                              controller: totalAmountController,
+                              decoration: InputDecoration(
+                                labelText: 'Total Amount',
+                              ),
+                            ),
+                            TextField(
+                              controller: personController,
+                              decoration: InputDecoration(
+                                labelText: 'Person',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      DropdownMenuItem<String>(
-                        value: '-',
-                        child: Text(
-                          '-',
-                          style: TextStyle(color: Colors.red),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancel'),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              TextField(
-                controller: amountController,
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
-                ],
-              ),
-              TextField(
-                controller: totalAmountController,
-                decoration: InputDecoration(
-                  labelText: 'Total Amount',
-                ),
-              ),
-              TextField(
-                controller: personController,
-                decoration: InputDecoration(
-                  labelText: 'Person',
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                String title = titleController.text;
-                String amount = amountController.text;
-                String totalamount = totalAmountController.text;
-                String person = personController.text;
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              String title = titleController.text;
+                              String amount = amountController.text;
+                              String totalamount = totalAmountController.text;
+                              String person = personController.text;
 
-                amount = selectedSign == '+' ? '(+$amount' : '(-$amount';
+                              amount = selectedSign == '+'
+                                  ? '(+$amount'
+                                  : '(-$amount';
 
-                DateTime now = DateTime.now();
-                String date = '${now.day}/${now.month}/${now.year}';
+                              DateTime now = DateTime.now();
+                              String date =
+                                  '${now.day}/${now.month}/${now.year}';
 
-                TableRow newRow = TableRow(
-                  children: [
-                    Column(
-                      children: [
-                        Text(title, textScaleFactor: 1.5),
-                        Text(date),
+                              TableRow newRow = TableRow(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(title, textScaleFactor: 1.5),
+                                      Text(date),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '$amount KRW)',
+                                        textScaleFactor: 1.3,
+                                        style: TextStyle(
+                                          color: selectedSign == '+'
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text('$totalamount' + ' KRW',
+                                          textScaleFactor: 1.5),
+                                      Text(person),
+                                    ],
+                                  ),
+                                ],
+                              );
+
+                              tableRows.add(newRow);
+
+                              titleController.clear();
+                              amountController.clear();
+                              totalAmountController.clear();
+                              personController.clear();
+
+                              Navigator.pop(context);
+                            });
+                          },
+                          child: Text('Add'),
+                        ),
                       ],
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          '$amount KRW)',
-                          textScaleFactor: 1.3,
-                          style: TextStyle(
-                            color: selectedSign == '+' ? Colors.green : Colors.red,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        Text('$totalamount' + ' KRW', textScaleFactor: 1.5),
-                        Text(person),
-                      ],
-                    ),
-                  ],
+                    );
+                  },
                 );
-
-                tableRows.add(newRow);
-
-                titleController.clear();
-                amountController.clear();
-                totalAmountController.clear();
-                personController.clear();
-
-                Navigator.pop(context);
-              });
-            },
-            child: Text('Add'),
-          ),
-        ],
-      );
-    },
-  );
-},          
+              },
               child: const Text('+'),
             ),
           ),
@@ -1174,9 +1294,3 @@ class _DropdownDemoState extends State<MyDebtPage> {
     );
   }
 }
-
-
-
-
-
-
