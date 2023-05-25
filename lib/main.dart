@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
+
 
 void main() {
   runApp(const MaterialApp(
@@ -580,18 +583,232 @@ class MySpendingPage extends StatelessWidget {
   }
 }
 
-class GroceriesCalculatorPage extends StatelessWidget {
+class GroceriesCalculatorPage extends StatefulWidget {
   const GroceriesCalculatorPage({super.key});
+  @override
+  _GroceriesCalculatorPageState createState() => _GroceriesCalculatorPageState();
+}
+
+class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
+  double budget = 0.0;
+  List<Map<String, dynamic>> groceryList = [];
+  final TextEditingController _budgetController = TextEditingController();
+
+  void addItem(BuildContext context) async {
+    final result = await showDialog<Map<String, dynamic>?>(
+      context: context,
+      builder: (BuildContext context) => AddItemDialog(),
+    );
+
+    if (result != null && result.containsKey('item') && result.containsKey('price')) {
+      setState(() {
+        groceryList.add({
+          'item': result['item'],
+          'price': result['price'],
+        });
+      });
+    }
+  }
+
+  double getTotalCost() {
+    double total = 0.0;
+    for (var item in groceryList) {
+      total += item['price'] as double;
+    }
+    return total;
+  }
+
+  double getRemainingBudget() {
+    return budget - getTotalCost();
+  }
+
+  void resetCalculator() {
+    setState(() {
+      budget = 0.0;
+      groceryList.clear();
+      _budgetController.text = ''; // Clear the text field
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Groceries Calculator Page'),
+    return Scaffold(
+      backgroundColor: const Color(0xFFCAFFDC),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  'Grocery Calculator',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Text('Today\'s Budget: ${NumberFormat('#,###').format(budget)}₩'),
+              TextField(
+                controller: _budgetController,
+                onChanged: (value) {
+                  setState(() {
+                    budget = double.tryParse(value.replaceAll(',', '')) ?? 0.0;
+                  });
+                },
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Enter Today\'s Budget',
+                  suffixText: '₩',
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Grocery List:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => addItem(context),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF58906E),
+                    ),
+                    child: const Text('Add Item'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (int index = 0; index < groceryList.length; index++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Text(
+                          '${index + 1}. ${groceryList[index]['item']} ${NumberFormat('#,###').format(groceryList[index]['price'].toInt())}₩',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Text(
+                'Total Cost: ${NumberFormat('#,###').format(getTotalCost().toInt())}₩',
+              ),
+              const SizedBox(height: 16.0),
+              Text(
+                'Remaining Budget: ${NumberFormat('#,###').format(getRemainingBudget().toInt())}₩',
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: resetCalculator,
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xFF58906E),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.refresh),
+                    const SizedBox(width: 8.0),
+                    const Text('Reset'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
+class AddItemDialog extends StatefulWidget {
+  @override
+  _AddItemDialogState createState() => _AddItemDialogState();
+}
+
+class _AddItemDialogState extends State<AddItemDialog> {
+  final _formKey = GlobalKey<FormState>();
+  String _item = '';
+  double _price = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add Item'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Item'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter an item';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _item = value ?? '';
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Price',
+                suffixText: '₩',
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a price';
+                }
+                final price = double.tryParse(value);
+                if (price == null || price <= 0.0) {
+                  return 'Please enter a valid price';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _price = double.parse(value ?? '0.0');
+              },
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (_formKey.currentState?.validate() ?? false) {
+              _formKey.currentState?.save();
+              Navigator.of(context).pop({'item': _item, 'price': _price});
+            }
+          },
+          child: const Text('Add'),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
 
 class MyDebtPage extends StatelessWidget {
   const MyDebtPage({super.key});
