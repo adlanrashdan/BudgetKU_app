@@ -640,6 +640,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 50.0), // Add space here
               Center(
                 child: Text(
                   'Grocery Calculator',
@@ -684,7 +685,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
               ),
               const SizedBox(height: 8.0),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 child: ListView(
                   shrinkWrap: true,
                   children: [
