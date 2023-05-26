@@ -490,6 +490,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final userNow=userList[1];
     return Scaffold(
         body: Container(
             width: double
@@ -532,12 +533,12 @@ class _MyProfileState extends State<MyProfile> {
                           //       50, // Adjust the radius to control the size of the circular image
                           //   backgroundImage: AssetImage('assets/images/jessica.png'), // Replace with your image asset path
                           // ),
-                          Icon(userList[0].icon, size: 50),
+                          Icon(userNow.icon, size: 50), //userIcon
                           SizedBox(
                               width:
                                   20), // Add some spacing between the icon and text
-                          Text(
-                            userList[0].name,
+                          Text(   //userName
+                            userNow.name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -548,8 +549,8 @@ class _MyProfileState extends State<MyProfile> {
 
                       const SizedBox(height: 12), // Add spacing
                       Center(
-                        child: Text(
-                          userList[0].email,
+                        child: Text(  //displayed email
+                          userNow.email,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
@@ -702,13 +703,6 @@ class MyExpensePage extends StatelessWidget {
   }
 }
 
-// class MySpendingPage extends StatelessWidget {
-//   const MySpendingPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-
 class MySpendingPage extends StatefulWidget {
   const MySpendingPage({super.key});
   @override
@@ -763,8 +757,6 @@ class GroceriesCalculatorPage extends StatelessWidget {
   }
 }
 
-// class MyDebtPage extends StatelessWidget {
-//   const MyDebtPage({super.key});
 class MyDebtPage extends StatefulWidget {
   const MyDebtPage({Key? key}) : super(key: key);
   @override
