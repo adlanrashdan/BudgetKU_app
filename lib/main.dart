@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:pie_chart/pie_chart.dart';
 
-
-
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
@@ -954,16 +952,227 @@ class MySpendingPage extends StatefulWidget {
 }
 
 class _MySpendingPageState extends State<MySpendingPage> {
+  String dropdownValue = 'January';
+  List<TableRow> tableRows = [];
+  final Random random = Random();
+  final TextEditingController _budgetController = TextEditingController();
+  String getMonthNumber(String month) {
+    switch (month) {
+      case 'January':
+        return '01';
+      case 'February':
+        return '02';
+      case 'March':
+        return '03';
+      case 'April':
+        return '04';
+      case 'May':
+        return '05';
+      case 'June':
+        return '06';
+      case 'July':
+        return '07';
+      case 'August':
+        return '08';
+      case 'September':
+        return '09';
+      case 'October':
+        return '10';
+      case 'November':
+        return '11';
+      case 'December':
+        return '12';
+      default:
+        return '01'; // Default to January if the month is not recognized
+    }
+  }
+
+  String getFormattedDate(String month) {
+    int monthNumber = int.parse(getMonthNumber(month));
+    String formattedMonth = monthNumber.toString().padLeft(2, '0');
+    DateTime now = DateTime.now();
+    return '${now.day}/$formattedMonth/${now.year}';
+  }
+
+  double totalSpend = 0;
+  final List<int> budgetList = [1600000, 2000000];
+  //edit form debt
+  void generateRandomTableRows() {
+    tableRows.clear();
+
+    int rowCount =
+        random.nextInt(6) + 1; // Random number of rows between 1 and 6
+    final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
+    //final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
+    final List<String> categoryList = [
+      'Food',
+      'Travel',
+      'Ento',
+      'Eat Out',
+      'Travel',
+      'Travel',
+      'Ento',
+      'Eat Out',
+      'Food',
+      'Food'
+    ];
+    final List<String> titleList = [
+      'Mcdonald',
+      'Jeju',
+      'Event',
+      'Drink',
+      'Sokcho',
+      'Dayout',
+      'Party',
+      'Cafe',
+      'Lunch',
+      'Dinner'
+    ];
+
+    for (int i = 0; i < rowCount; i++) {
+      int rTitle = random.nextInt(titleList.length);
+      String title = titleList[rTitle];
+      String month = getMonthNumber(dropdownValue);
+      String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
+      String date = '$day/$month/2023';
+      String category = categoryList[rTitle];
+      double amountNo = (amountList[random.nextInt(amountList.length)] - 9000);
+      totalSpend += amountNo;
+      String amount = amountNo.toString();
+      //String totalAmount = (totalAmountList[random.nextInt(totalAmountList.length)] - 100).toString();
+
+      TableRow newRow = TableRow(
+        children: [
+          Column(
+            children: [
+              Text(
+                date,
+                textScaleFactor: 1.2,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Column(
+            children: [
+              Text(
+                title,
+                textScaleFactor: 1.3,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                category,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                '($amount KRW)',
+                textScaleFactor: 1.3,
+                style: TextStyle(
+                  color: amount.startsWith('-') ? Colors.red : Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Icon(Icons.edit)
+        ],
+      );
+
+      tableRows.add(newRow);
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      generateRandomTableRows();
+    }
+  }
+
+  void onTapText() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Change Budget'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _budgetController,
+                  decoration: InputDecoration(
+                    labelText: 'Amount',
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  String newBudgetText=_budgetController.text;
+                  double newBudget = double.tryParse(newBudgetText) ?? 0.0;
+                  budget=newBudget;
+                  _budgetController.clear();
+
+                  Navigator.pop(context);
+                });
+              },
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  double budget = 640000;
+  double allTotal = 0;
+
   @override
   Widget build(BuildContext context) {
+    double remaining = budget - totalSpend;
+    double progress =
+        (remaining / budget).clamp(0.0, 1.0); // Calculate progress value
     return Scaffold(
         body: Container(
             width: double
                 .infinity, // Set the width to fill the entire available space
             height: double
                 .infinity, // Set the height to fill the entire available space
-            color: const Color(
-                0xFFCAFFDC), // Set the background color for the entire screen
+            color: Color.fromARGB(255, 247, 251,
+                248), // Set the background color for the entire screen
             child: SingleChildScrollView(
                 child: Center(
               child: Padding(
@@ -971,17 +1180,326 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
+
+                  // component of the page
                   children: [
-                    const Text(
-                      'My Spending',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B5E20),
+                    Center(
+                      child: Text(
+                        'My Spending',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1B5E20),
+                        ),
                       ),
                     ),
-                  ],
+                    SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),
+                    SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                        'Month:',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Center(
+                      child: DropdownButton<String>(
+                        value: dropdownValue,
+                        items: <String>[
+                          'January',
+                          'February',
+                          'March',
+                          'April',
+                          'May',
+                          'June',
+                          'July',
+                          'August',
+                          'September',
+                          'October',
+                          'November',
+                          'December',
+                        ].map<DropdownMenuItem<String>>(
+                          (String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                            generateRandomTableRows();
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    Row(
+                      children: [
+                        Text(
+                          'Budget: ',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: onTapText,
+                            child: Text(
+                              budget.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        backgroundColor: Colors.white,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                        minHeight: 10,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Remainder: ₩ ${remaining.toStringAsFixed(0)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    ...tableRows.map((row) => Row(children: row.children)),
+                    SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Total Spending:',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              '₩ ${totalSpend.toStringAsFixed(0)}',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                              onPressed: () async {
+                                TextEditingController titleController =
+                                    TextEditingController();
+                                TextEditingController amountController =
+                                    TextEditingController();
+
+                                TextEditingController categoryController =
+                                    TextEditingController();
+                                String selectedSign = '+';
+
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Add New Debt Record'),
+                                      content: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            TextField(
+                                              controller: titleController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Title',
+                                              ),
+                                            ),
+                                            SizedBox(height: 16),
+
+                                            SizedBox(height: 16),
+                                            TextField(
+                                              controller: amountController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Amount',
+                                              ),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(
+                                                        r'^-?\d*\.?\d*')),
+                                              ],
+                                            ),
+                                            SizedBox(height: 16),
+                                            TextField(
+                                              controller: categoryController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Category',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Cancel'),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              String title =
+                                                  titleController.text;
+                                              String amount =
+                                                  amountController.text;
+                                              String category =
+                                                  categoryController.text;
+
+                                              amount = selectedSign == '+'
+                                                  ? '(+$amount'
+                                                  : '(-$amount';
+                                              String formattedDate =
+                                                  getFormattedDate(
+                                                      dropdownValue);
+
+                                              TableRow newRow = TableRow(
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        formattedDate,
+                                                        textScaleFactor: 1.2,
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        title,
+                                                        textScaleFactor: 1.3,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        category,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color:
+                                                              Colors.grey[600],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                        '$amount KRW)',
+                                                        textScaleFactor: 1.3,
+                                                        style: TextStyle(
+                                                          color: amount
+                                                                  .startsWith(
+                                                                      '-')
+                                                              ? Colors.red
+                                                              : Colors.green,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Icon(Icons.edit)
+                                                ],
+                                              );
+
+                                              tableRows.add(newRow);
+
+                                              titleController.clear();
+                                              amountController.clear();
+                                              categoryController.clear();
+
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text('Add'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Text(
+                                '+',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ], //end of component page
                 ),
               ),
             ))));
