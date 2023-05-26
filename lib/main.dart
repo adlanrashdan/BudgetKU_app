@@ -1277,7 +1277,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                           child: GestureDetector(
                             onTap: onTapText,
                             child: Text(
-                              budget.toString(),
+                              budget.toStringAsFixed(0),
                               style: TextStyle(
                                 fontSize: 16,
                               ),
