@@ -32,3 +32,6 @@ Information Architecture
 
 9. My Debt Page (Add)
 <img src="assets/diagrams/mydebt_add.png" alt="Alt text" title="Optional title">
+
+10. My Groceries Page
+<img src="assets/diagrams/groceries_calc.png" alt="Alt text" title="Optional title">
