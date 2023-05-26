@@ -487,20 +487,22 @@ class _MyProfileState extends State<MyProfile> {
   final List<User> userList = [
     User('Jessica', 'jessicainseoul@gmail.com', 'jessica1',
         AssetImage('assets/images/jessica.png')),
-    User('Johny', 'johnyfriends@gmail.com', 'johny2', AssetImage('assets/images/johny.png')),
-    User('Max', 'maxfarmer@gmail.com', 'max3', AssetImage('assets/images/max.png')),
+    User('Johny', 'johnyfriends@gmail.com', 'johny2',
+        AssetImage('assets/images/johny.png')),
+    User('Max', 'maxfarmer@gmail.com', 'max3',
+        AssetImage('assets/images/max.png')),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final userNow=userList[1];
+    final userNow = userList[2];
     return Scaffold(
         body: Container(
             width: double
                 .infinity, // Set the width to fill the entire available space
             height: double
                 .infinity, // Set the height to fill the entire available space
-            color: Color.fromARGB(255, 247, 251,248),
+            color: Color.fromARGB(255, 247, 251, 248),
             //const Color(0xFFCAFFDC), // Set the background color for the entire screen
             child: SingleChildScrollView(
               child: Center(
@@ -535,12 +537,14 @@ class _MyProfileState extends State<MyProfile> {
                           CircleAvatar(
                             radius:
                                 50, // Adjust the radius to control the size of the circular image
-                            backgroundImage: userNow.icon, // Replace with your image asset path
+                            backgroundImage: userNow
+                                .icon, // Replace with your image asset path
                           ),
                           SizedBox(
                               width:
                                   20), // Add some spacing between the icon and text
-                          Text(   //userName
+                          Text(
+                            //userName
                             userNow.name,
                             style: TextStyle(
                               fontSize: 20,
@@ -552,7 +556,8 @@ class _MyProfileState extends State<MyProfile> {
 
                       const SizedBox(height: 12), // Add spacing
                       Center(
-                        child: Text(  //displayed email
+                        child: Text(
+                          //displayed email
                           userNow.email,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -696,109 +701,109 @@ class User {
 class MyExpensePage extends StatefulWidget {
   const MyExpensePage({Key? key}) : super(key: key);
 
- @override
+  @override
   _MyExpensePageState createState() => _MyExpensePageState();
 }
 
 class _MyExpensePageState extends State<MyExpensePage> {
   String dropdownValue = 'January'; // Default dropdown value
   final Map<String, Map<String, double>> expenseData = {
-'January': {
-'Rent': 750000,
-'Utilities': 150000,
-'Transportation': 100000,
-'Food': 400000,
-'Entertainment': 80000,
-},
-'February': {
-'Rent': 720000,
-'Utilities': 140000,
-'Transportation': 100000,
-'Food': 380000,
-'Entertainment': 90000,
-},
-'March': {
-'Rent': 750000,
-'Utilities': 160000,
-'Transportation': 100000,
-'Food': 420000,
-'Entertainment': 95000,
-},
-'April': {
-'Rent': 700000,
-'Utilities': 140000,
-'Transportation': 95000,
-'Food': 380000,
-'Entertainment': 85000,
-},
-'May': {
-'Rent': 730000,
-'Utilities': 150000,
-'Transportation': 105000,
-'Food': 400000,
-'Entertainment': 90000,
-},
-'June': {
-'Rent': 720000,
-'Utilities': 140000,
-'Transportation': 100000,
-'Food': 390000,
-'Entertainment': 85000,
-},
-'July': {
-'Rent': 750000,
-'Utilities': 160000,
-'Transportation': 105000,
-'Food': 420000,
-'Entertainment': 95000,
-},
-'August': {
-'Rent': 700000,
-'Utilities': 140000,
-'Transportation': 95000,
-'Food': 380000,
-'Entertainment': 85000,
-},
-'September': {
-'Rent': 730000,
-'Utilities': 150000,
-'Transportation': 105000,
-'Food': 400000,
-'Entertainment': 90000,
-},
-'October': {
-'Rent': 720000,
-'Utilities': 140000,
-'Transportation': 100000,
-'Food': 390000,
-'Entertainment': 85000,
-},
-'November': {
-'Rent': 750000,
-'Utilities': 160000,
-'Transportation': 105000,
-'Food': 420000,
-'Entertainment': 95000,
-},
-'December': {
-'Rent': 700000,
-'Utilities': 140000,
-'Transportation': 95000,
-'Food': 380000,
-'Entertainment': 85000,
-},
+    'January': {
+      'Rent': 750000,
+      'Utilities': 150000,
+      'Transportation': 100000,
+      'Food': 400000,
+      'Entertainment': 80000,
+    },
+    'February': {
+      'Rent': 720000,
+      'Utilities': 140000,
+      'Transportation': 100000,
+      'Food': 380000,
+      'Entertainment': 90000,
+    },
+    'March': {
+      'Rent': 750000,
+      'Utilities': 160000,
+      'Transportation': 100000,
+      'Food': 420000,
+      'Entertainment': 95000,
+    },
+    'April': {
+      'Rent': 700000,
+      'Utilities': 140000,
+      'Transportation': 95000,
+      'Food': 380000,
+      'Entertainment': 85000,
+    },
+    'May': {
+      'Rent': 730000,
+      'Utilities': 150000,
+      'Transportation': 105000,
+      'Food': 400000,
+      'Entertainment': 90000,
+    },
+    'June': {
+      'Rent': 720000,
+      'Utilities': 140000,
+      'Transportation': 100000,
+      'Food': 390000,
+      'Entertainment': 85000,
+    },
+    'July': {
+      'Rent': 750000,
+      'Utilities': 160000,
+      'Transportation': 105000,
+      'Food': 420000,
+      'Entertainment': 95000,
+    },
+    'August': {
+      'Rent': 700000,
+      'Utilities': 140000,
+      'Transportation': 95000,
+      'Food': 380000,
+      'Entertainment': 85000,
+    },
+    'September': {
+      'Rent': 730000,
+      'Utilities': 150000,
+      'Transportation': 105000,
+      'Food': 400000,
+      'Entertainment': 90000,
+    },
+    'October': {
+      'Rent': 720000,
+      'Utilities': 140000,
+      'Transportation': 100000,
+      'Food': 390000,
+      'Entertainment': 85000,
+    },
+    'November': {
+      'Rent': 750000,
+      'Utilities': 160000,
+      'Transportation': 105000,
+      'Food': 420000,
+      'Entertainment': 95000,
+    },
+    'December': {
+      'Rent': 700000,
+      'Utilities': 140000,
+      'Transportation': 95000,
+      'Food': 380000,
+      'Entertainment': 85000,
+    },
   };
 
-double calculateTotalExpense(String chosenMonth) {
-  double totalExpense = 0;
-  
-  final Map<String, double> expenses = expenseData[chosenMonth]?? {};
-  expenses.forEach((category, expense) {
-    totalExpense += expense;
-  });
-  
-  return totalExpense;
-}
+  double calculateTotalExpense(String chosenMonth) {
+    double totalExpense = 0;
+
+    final Map<String, double> expenses = expenseData[chosenMonth] ?? {};
+    expenses.forEach((category, expense) {
+      totalExpense += expense;
+    });
+
+    return totalExpense;
+  }
 
   final legendLabels = <String, String>{
     "Rent": "Rent legend",
@@ -808,7 +813,7 @@ double calculateTotalExpense(String chosenMonth) {
     "Entertainment": "Entertainment legend",
   };
 
-    final colorList = <Color>[
+  final colorList = <Color>[
     const Color(0xfffdcb6e),
     const Color(0xff0984e3),
     const Color(0xfffd79a8),
@@ -832,114 +837,113 @@ double calculateTotalExpense(String chosenMonth) {
   ];
 
   @override
-Widget build(BuildContext context) {
-  final chart = PieChart(
-    dataMap: expenseData[dropdownValue] ?? {},
-    animationDuration: const Duration(milliseconds: 800),
-    chartRadius: min(MediaQuery.of(context).size.width / 1.5, 500),
-    colorList: colorList,
-    initialAngleInDegree: 0,
-    chartType: ChartType.disc,
-    legendOptions: LegendOptions(
-      showLegendsInRow: false,
-      legendPosition: LegendPosition.bottom,
-      showLegends: true,
-      legendShape: BoxShape.circle,
-      legendTextStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) {
+    final chart = PieChart(
+      dataMap: expenseData[dropdownValue] ?? {},
+      animationDuration: const Duration(milliseconds: 800),
+      chartRadius: min(MediaQuery.of(context).size.width / 1.5, 500),
+      colorList: colorList,
+      initialAngleInDegree: 0,
+      chartType: ChartType.disc,
+      legendOptions: LegendOptions(
+        showLegendsInRow: false,
+        legendPosition: LegendPosition.bottom,
+        showLegends: true,
+        legendShape: BoxShape.circle,
+        legendTextStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-    chartValuesOptions: ChartValuesOptions(
-      showChartValueBackground: true,
-      showChartValues: true,
-      showChartValuesInPercentage: true,
-      showChartValuesOutside: false,
-      decimalPlaces: 1,
-    ),
-    emptyColor: Colors.grey[300]!,
-    baseChartColor: Colors.transparent,
-  );
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: true,
+        showChartValues: true,
+        showChartValuesInPercentage: true,
+        showChartValuesOutside: false,
+        decimalPlaces: 1,
+      ),
+      emptyColor: Colors.grey[300]!,
+      baseChartColor: Colors.transparent,
+    );
 
-  return Scaffold(
-    backgroundColor: const Color(0xFFCAFFDC), // Set the background color here
-    body: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '$dropdownValue\'s Expense',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: const Color(0xFFCAFFDC), // Set the background color here
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '$dropdownValue\'s Expense',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                DropdownButton<String>(
-                  value: dropdownValue,
-                  items: <String>[
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                    'August',
-                    'September',
-                    'October',
-                    'November',
-                    'December',
-                  ].map<DropdownMenuItem<String>>(
-                    (String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                            fontSize: 20,
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    items: <String>[
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                      'May',
+                      'June',
+                      'July',
+                      'August',
+                      'September',
+                      'October',
+                      'November',
+                      'December',
+                    ].map<DropdownMenuItem<String>>(
+                      (String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                        // Call a function to generate random table rows or perform any other action
+                      });
                     },
-                  ).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownValue = newValue!;
-                      // Call a function to generate random table rows or perform any other action
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              vertical: 32,
-            ),
-            child: Column(
-              children: [
-                Text(
-                  '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-                SizedBox(height: 16),
-                chart,
-              ],
+                ],
+              ),
             ),
-          )
-        ],
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 32,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  chart,
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class MySpendingPage extends StatefulWidget {
@@ -1098,12 +1102,12 @@ class _MySpendingPageState extends State<MySpendingPage> {
 
       tableRows.add(newRow);
     }
+  }
 
-    @override
-    void initState() {
-      super.initState();
-      generateRandomTableRows();
-    }
+  @override
+  void initState() {
+    super.initState();
+    generateRandomTableRows();
   }
 
   void onTapText() {
@@ -1138,9 +1142,9 @@ class _MySpendingPageState extends State<MySpendingPage> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  String newBudgetText=_budgetController.text;
+                  String newBudgetText = _budgetController.text;
                   double newBudget = double.tryParse(newBudgetText) ?? 0.0;
-                  budget=newBudget;
+                  budget = newBudget;
                   _budgetController.clear();
 
                   Navigator.pop(context);
@@ -1168,7 +1172,8 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 .infinity, // Set the width to fill the entire available space
             height: double
                 .infinity, // Set the height to fill the entire available space
-            color: Color.fromARGB(255, 247, 251,248), // Set the background color for the entire screen
+            color: Color.fromARGB(255, 247, 251,
+                248), // Set the background color for the entire screen
             child: SingleChildScrollView(
                 child: Center(
               child: Padding(
@@ -1248,7 +1253,6 @@ class _MySpendingPageState extends State<MySpendingPage> {
                     SizedBox(
                       height: 10,
                     ),
-
                     Row(
                       children: [
                         Text(
@@ -1358,7 +1362,6 @@ class _MySpendingPageState extends State<MySpendingPage> {
                                               ),
                                             ),
                                             SizedBox(height: 16),
-
                                             SizedBox(height: 16),
                                             TextField(
                                               controller: amountController,
@@ -1506,7 +1509,8 @@ class _MySpendingPageState extends State<MySpendingPage> {
 class GroceriesCalculatorPage extends StatefulWidget {
   const GroceriesCalculatorPage({super.key});
   @override
-  _GroceriesCalculatorPageState createState() => _GroceriesCalculatorPageState();
+  _GroceriesCalculatorPageState createState() =>
+      _GroceriesCalculatorPageState();
 }
 
 class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
@@ -1520,7 +1524,9 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
       builder: (BuildContext context) => AddItemDialog(),
     );
 
-    if (result != null && result.containsKey('item') && result.containsKey('price')) {
+    if (result != null &&
+        result.containsKey('item') &&
+        result.containsKey('price')) {
       setState(() {
         groceryList.add({
           'item': result['item'],
@@ -1784,19 +1790,44 @@ class _MyDebtPageState extends State<MyDebtPage> {
     paidTableRows.clear();
     nonPaidTableRows.clear();
 
-    int rowCount = random.nextInt(6) + 1; // Random number of rows between 1 and 6
+    int rowCount =
+        random.nextInt(6) + 1; // Random number of rows between 1 and 6
     final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
     final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
-    final List<String> personList = ['Wani', 'Jennie', 'Miyeon', 'Yeran', 'Adlan', 'Jani', 'Emily', 'Lee', 'Hong'];
-    final List<String> titleList = ['Mcdonald', 'Travel', 'Event', 'Drink', 'Travel', 'Dayout', 'Party', 'Cafe', 'Lunch', 'Dinner'];
+    final List<String> personList = [
+      'Wani',
+      'Jennie',
+      'Miyeon',
+      'Yeran',
+      'Adlan',
+      'Jani',
+      'Emily',
+      'Lee',
+      'Hong'
+    ];
+    final List<String> titleList = [
+      'Mcdonald',
+      'Travel',
+      'Event',
+      'Drink',
+      'Travel',
+      'Dayout',
+      'Party',
+      'Cafe',
+      'Lunch',
+      'Dinner'
+    ];
 
     for (int i = 0; i < rowCount; i++) {
       String title = titleList[random.nextInt(titleList.length)];
       String month = getMonthNumber(dropdownValue);
       String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
       String date = '$day/$month/2023';
-      String amount = (amountList[random.nextInt(amountList.length)] - 9000).toString();
-      String totalAmount = (totalAmountList[random.nextInt(totalAmountList.length)] - 100).toString();
+      String amount =
+          (amountList[random.nextInt(amountList.length)] - 9000).toString();
+      String totalAmount =
+          (totalAmountList[random.nextInt(totalAmountList.length)] - 100)
+              .toString();
       String person = personList[random.nextInt(personList.length)];
 
       TableRow newRow = TableRow(
@@ -1862,8 +1893,10 @@ class _MyDebtPageState extends State<MyDebtPage> {
       int paidRowCount = random.nextInt(tableRows.length);
       int nonPaidRowCount = tableRows.length - paidRowCount;
 
-      paidTableRows = List.generate(paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
-      nonPaidTableRows = tableRows.where((row) => !paidTableRows.contains(row)).toList();
+      paidTableRows = List.generate(
+          paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
+      nonPaidTableRows =
+          tableRows.where((row) => !paidTableRows.contains(row)).toList();
     }
   }
 
@@ -1881,14 +1914,16 @@ class _MyDebtPageState extends State<MyDebtPage> {
     generateRandomTableRows();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 247, 251, 248)!, Color.fromARGB(255, 247, 250, 248)!],
+            colors: [
+              Color.fromARGB(255, 247, 251, 248)!,
+              Color.fromARGB(255, 247, 250, 248)!
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -2010,7 +2045,8 @@ class _MyDebtPageState extends State<MyDebtPage> {
                             ),
                           ),
                           SizedBox(height: 16),
-                          ...paidTableRows.map((row) => Row(children: row.children)),
+                          ...paidTableRows
+                              .map((row) => Row(children: row.children)),
                         ],
                       ),
                     ),
@@ -2089,10 +2125,14 @@ class _MyDebtPageState extends State<MyDebtPage> {
                     ),
                   ),
                   onPressed: () async {
-                    TextEditingController titleController = TextEditingController();
-                    TextEditingController amountController = TextEditingController();
-                    TextEditingController totalAmountController = TextEditingController();
-                    TextEditingController personController = TextEditingController();
+                    TextEditingController titleController =
+                        TextEditingController();
+                    TextEditingController amountController =
+                        TextEditingController();
+                    TextEditingController totalAmountController =
+                        TextEditingController();
+                    TextEditingController personController =
+                        TextEditingController();
                     String selectedSign = '+';
 
                     await showDialog(
@@ -2125,14 +2165,18 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                           value: '+',
                                           child: Text(
                                             '+',
-                                            style: TextStyle(color: Colors.green, fontSize: 24),
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: 24),
                                           ),
                                         ),
                                         DropdownMenuItem<String>(
                                           value: '-',
                                           child: Text(
                                             '-',
-                                            style: TextStyle(color: Colors.red, fontSize: 24),
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 24),
                                           ),
                                         ),
                                       ],
@@ -2146,7 +2190,8 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                     labelText: 'Amount',
                                   ),
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^-?\d*\.?\d*')),
                                   ],
                                 ),
                                 SizedBox(height: 16),
@@ -2178,11 +2223,15 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                 setState(() {
                                   String title = titleController.text;
                                   String amount = amountController.text;
-                                  String totalAmount = totalAmountController.text;
+                                  String totalAmount =
+                                      totalAmountController.text;
                                   String person = personController.text;
 
-                                  amount = selectedSign == '+' ? '(+$amount' : '(-$amount';
-                                  String formattedDate = getFormattedDate(dropdownValue);
+                                  amount = selectedSign == '+'
+                                      ? '(+$amount'
+                                      : '(-$amount';
+                                  String formattedDate =
+                                      getFormattedDate(dropdownValue);
 
                                   TableRow newRow = TableRow(
                                     children: [
@@ -2212,7 +2261,9 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                             '$amount KRW)',
                                             textScaleFactor: 1.3,
                                             style: TextStyle(
-                                              color: selectedSign == '+' ? Colors.green : Colors.red,
+                                              color: selectedSign == '+'
+                                                  ? Colors.green
+                                                  : Colors.red,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16,
                                             ),
