@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
+import 'package:pie_chart/pie_chart.dart';
+
 
 
 void main() {
@@ -692,17 +695,256 @@ class User {
   User(this.name, this.email, this.password, this.icon);
 }
 
-class MyExpensePage extends StatelessWidget {
-  const MyExpensePage({super.key});
+class MyExpensePage extends StatefulWidget {
+  const MyExpensePage({Key? key}) : super(key: key);
+
+ @override
+  _MyExpensePageState createState() => _MyExpensePageState();
+}
+
+class _MyExpensePageState extends State<MyExpensePage> {
+  String dropdownValue = 'January'; // Default dropdown value
+  final Map<String, Map<String, double>> expenseData = {
+'January': {
+'Rent': 750000,
+'Utilities': 150000,
+'Transportation': 100000,
+'Food': 400000,
+'Entertainment': 80000,
+},
+'February': {
+'Rent': 720000,
+'Utilities': 140000,
+'Transportation': 100000,
+'Food': 380000,
+'Entertainment': 90000,
+},
+'March': {
+'Rent': 750000,
+'Utilities': 160000,
+'Transportation': 100000,
+'Food': 420000,
+'Entertainment': 95000,
+},
+'April': {
+'Rent': 700000,
+'Utilities': 140000,
+'Transportation': 95000,
+'Food': 380000,
+'Entertainment': 85000,
+},
+'May': {
+'Rent': 730000,
+'Utilities': 150000,
+'Transportation': 105000,
+'Food': 400000,
+'Entertainment': 90000,
+},
+'June': {
+'Rent': 720000,
+'Utilities': 140000,
+'Transportation': 100000,
+'Food': 390000,
+'Entertainment': 85000,
+},
+'July': {
+'Rent': 750000,
+'Utilities': 160000,
+'Transportation': 105000,
+'Food': 420000,
+'Entertainment': 95000,
+},
+'August': {
+'Rent': 700000,
+'Utilities': 140000,
+'Transportation': 95000,
+'Food': 380000,
+'Entertainment': 85000,
+},
+'September': {
+'Rent': 730000,
+'Utilities': 150000,
+'Transportation': 105000,
+'Food': 400000,
+'Entertainment': 90000,
+},
+'October': {
+'Rent': 720000,
+'Utilities': 140000,
+'Transportation': 100000,
+'Food': 390000,
+'Entertainment': 85000,
+},
+'November': {
+'Rent': 750000,
+'Utilities': 160000,
+'Transportation': 105000,
+'Food': 420000,
+'Entertainment': 95000,
+},
+'December': {
+'Rent': 700000,
+'Utilities': 140000,
+'Transportation': 95000,
+'Food': 380000,
+'Entertainment': 85000,
+},
+  };
+
+double calculateTotalExpense(String chosenMonth) {
+  double totalExpense = 0;
+  
+  final Map<String, double> expenses = expenseData[chosenMonth]?? {};
+  expenses.forEach((category, expense) {
+    totalExpense += expense;
+  });
+  
+  return totalExpense;
+}
+
+  final legendLabels = <String, String>{
+    "Rent": "Rent legend",
+    "Utilities": "Utilities legend",
+    "Transportation": "Transportation legend",
+    "Food": "Food legend",
+    "Entertainment": "Entertainment legend",
+  };
+
+    final colorList = <Color>[
+    const Color(0xfffdcb6e),
+    const Color(0xff0984e3),
+    const Color(0xfffd79a8),
+    const Color(0xffe17055),
+    const Color(0xff6c5ce7),
+  ];
+
+  final gradientList = <List<Color>>[
+    [
+      const Color.fromRGBO(223, 250, 92, 1),
+      const Color.fromRGBO(129, 250, 112, 1),
+    ],
+    [
+      const Color.fromRGBO(129, 182, 205, 1),
+      const Color.fromRGBO(91, 253, 199, 1),
+    ],
+    [
+      const Color.fromRGBO(175, 63, 62, 1.0),
+      const Color.fromRGBO(254, 154, 92, 1),
+    ]
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('My Expense Page'),
+    final chart = PieChart(
+      dataMap: expenseData[dropdownValue]?? {},
+      animationDuration: const Duration(milliseconds: 800),
+      chartRadius: min(MediaQuery.of(context).size.width / 1.5, 500),
+      colorList: colorList,
+      initialAngleInDegree: 0,
+      chartType: ChartType.disc,
+      legendOptions: LegendOptions(
+        showLegendsInRow: false,
+        legendPosition: LegendPosition.bottom,
+        showLegends: true,
+        legendShape: BoxShape.circle,
+        legendTextStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: true,
+        showChartValues: true,
+        showChartValuesInPercentage: true,
+        showChartValuesOutside: false,
+        decimalPlaces: 1,
+      ),
+      emptyColor: Colors.grey[300]!,
+      baseChartColor: Colors.transparent,
+    );
+
+    return Scaffold(
+      body: Container(
+        color: Color(0xFFCAFFDC), // Set the background color here
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '$dropdownValue\'s Expense',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      items: <String>[
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December',
+                      ].map<DropdownMenuItem<String>>(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                          // Call a function to generate random table rows or perform any other action
+                        });
+                      },
+                    ),
+                    
+                  ],  
+                ),
+              ),
+              Container(
+            margin: const EdgeInsets.symmetric(
+              vertical: 32,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
+                  style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                SizedBox(height: 16),
+                chart,
+              ],
+            ),)
+            ],
+          ),
+        ),
       ),
     );
   }
+
 }
 
 class MySpendingPage extends StatefulWidget {
