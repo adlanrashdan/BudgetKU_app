@@ -1117,6 +1117,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
     generateRandomTableRows();
   }
 
+
   void onTapText() {
     showDialog(
       context: context,
@@ -1168,11 +1169,12 @@ class _MySpendingPageState extends State<MySpendingPage> {
   }
 
   double allTotal = 0;
-
+  double remaining=0;
+  double progress=1;
   @override
   Widget build(BuildContext context) {
-    double remaining = budget - totalSpend;
-    double progress =
+    remaining = budget - totalSpend;
+    progress =
         (remaining / budget).clamp(0.0, 1.0); // Calculate progress value
     return Scaffold(
         body: Container(
@@ -1253,6 +1255,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                         onChanged: (String? newValue) {
                           setState(() {
                             dropdownValue = newValue!;
+                            totalSpend=0;
                             generateRandomTableRows();
                           });
                         },
