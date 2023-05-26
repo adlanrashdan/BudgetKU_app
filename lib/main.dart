@@ -996,7 +996,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
   }
 
   double totalSpend = 0;
-  final List<int> budgetList = [1600000, 2000000];
+  //final List<int> budgetList = [1600000, 2000000];
   //edit form debt
   void generateRandomTableRows() {
     tableRows.clear();
@@ -1159,7 +1159,142 @@ class _MySpendingPageState extends State<MySpendingPage> {
   }
 
   double budget = 640000;
-  double allTotal = 0;
+  //double allTotal = 0;
+
+  void showAddSpendingDialog(BuildContext context) async {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  String selectedSign = '+';
+
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Add New Spending Record'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                ),
+              ),
+              SizedBox(height: 16),
+              SizedBox(height: 16),
+              TextField(
+                controller: amountController,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+                ],
+              ),
+              SizedBox(height: 16),
+              TextField(
+                controller: categoryController,
+                decoration: InputDecoration(
+                  labelText: 'Category',
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                String title = titleController.text;
+                String amount = amountController.text;
+                String category = categoryController.text;
+
+                amount = selectedSign == '+' ? '(+$amount' : '(-$amount';
+                String formattedDate = getFormattedDate(dropdownValue);
+
+                TableRow newRow = TableRow(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          formattedDate,
+                          textScaleFactor: 1.2,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          title,
+                          textScaleFactor: 1.3,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          category,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '$amount KRW)',
+                          textScaleFactor: 1.3,
+                          style: TextStyle(
+                            color:
+                                amount.startsWith('-') ? Colors.red : Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(Icons.edit)
+                  ],
+                );
+                totalSpend += double.tryParse(amount) ?? 0.0;
+                tableRows.add(newRow);
+
+                titleController.clear();
+                amountController.clear();
+                categoryController.clear();
+
+                Navigator.pop(context);
+              });
+            },
+            child: Text('Add'),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -1336,160 +1471,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                               ),
-                              onPressed: () async {
-                                TextEditingController titleController =
-                                    TextEditingController();
-                                TextEditingController amountController =
-                                    TextEditingController();
-
-                                TextEditingController categoryController =
-                                    TextEditingController();
-                                String selectedSign = '+';
-
-                                await showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Add New Debt Record'),
-                                      content: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            TextField(
-                                              controller: titleController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Title',
-                                              ),
-                                            ),
-                                            SizedBox(height: 16),
-                                            SizedBox(height: 16),
-                                            TextField(
-                                              controller: amountController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Amount',
-                                              ),
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .allow(RegExp(
-                                                        r'^-?\d*\.?\d*')),
-                                              ],
-                                            ),
-                                            SizedBox(height: 16),
-                                            TextField(
-                                              controller: categoryController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Category',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Cancel'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              String title =
-                                                  titleController.text;
-                                              String amount =
-                                                  amountController.text;
-                                              String category =
-                                                  categoryController.text;
-
-                                              amount = selectedSign == '+'
-                                                  ? '(+$amount'
-                                                  : '(-$amount';
-                                              String formattedDate =
-                                                  getFormattedDate(
-                                                      dropdownValue);
-
-                                              TableRow newRow = TableRow(
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        formattedDate,
-                                                        textScaleFactor: 1.2,
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        title,
-                                                        textScaleFactor: 1.3,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 4),
-                                                      Text(
-                                                        category,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color:
-                                                              Colors.grey[600],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Expanded(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Text(
-                                                        '$amount KRW)',
-                                                        textScaleFactor: 1.3,
-                                                        style: TextStyle(
-                                                          color: amount
-                                                                  .startsWith(
-                                                                      '-')
-                                                              ? Colors.red
-                                                              : Colors.green,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Icon(Icons.edit)
-                                                ],
-                                              );
-
-                                              tableRows.add(newRow);
-
-                                              titleController.clear();
-                                              amountController.clear();
-                                              categoryController.clear();
-
-                                              Navigator.pop(context);
-                                            });
-                                          },
-                                          child: Text('Add'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                              onPressed: () => showAddSpendingDialog(context),
                               child: const Text(
                                 '+',
                                 style: TextStyle(fontSize: 24),
