@@ -832,94 +832,91 @@ double calculateTotalExpense(String chosenMonth) {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final chart = PieChart(
-      dataMap: expenseData[dropdownValue]?? {},
-      animationDuration: const Duration(milliseconds: 800),
-      chartRadius: min(MediaQuery.of(context).size.width / 1.5, 500),
-      colorList: colorList,
-      initialAngleInDegree: 0,
-      chartType: ChartType.disc,
-      legendOptions: LegendOptions(
-        showLegendsInRow: false,
-        legendPosition: LegendPosition.bottom,
-        showLegends: true,
-        legendShape: BoxShape.circle,
-        legendTextStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+Widget build(BuildContext context) {
+  final chart = PieChart(
+    dataMap: expenseData[dropdownValue] ?? {},
+    animationDuration: const Duration(milliseconds: 800),
+    chartRadius: min(MediaQuery.of(context).size.width / 1.5, 500),
+    colorList: colorList,
+    initialAngleInDegree: 0,
+    chartType: ChartType.disc,
+    legendOptions: LegendOptions(
+      showLegendsInRow: false,
+      legendPosition: LegendPosition.bottom,
+      showLegends: true,
+      legendShape: BoxShape.circle,
+      legendTextStyle: const TextStyle(
+        fontWeight: FontWeight.bold,
       ),
-      chartValuesOptions: ChartValuesOptions(
-        showChartValueBackground: true,
-        showChartValues: true,
-        showChartValuesInPercentage: true,
-        showChartValuesOutside: false,
-        decimalPlaces: 1,
-      ),
-      emptyColor: Colors.grey[300]!,
-      baseChartColor: Colors.transparent,
-    );
+    ),
+    chartValuesOptions: ChartValuesOptions(
+      showChartValueBackground: true,
+      showChartValues: true,
+      showChartValuesInPercentage: true,
+      showChartValuesOutside: false,
+      decimalPlaces: 1,
+    ),
+    emptyColor: Colors.grey[300]!,
+    baseChartColor: Colors.transparent,
+  );
 
-    return Scaffold(
-      body: Container(
-        color: Color(0xFFCAFFDC), // Set the background color here
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '$dropdownValue\'s Expense',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      items: <String>[
-                        'January',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December',
-                      ].map<DropdownMenuItem<String>>(
-                        (String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          );
-                        },
-                      ).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                          // Call a function to generate random table rows or perform any other action
-                        });
-                      },
-                    ),
-                    
-                  ],  
+  return Scaffold(
+    backgroundColor: const Color(0xFFCAFFDC), // Set the background color here
+    body: SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '$dropdownValue\'s Expense',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Container(
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  items: <String>[
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December',
+                  ].map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                      // Call a function to generate random table rows or perform any other action
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Container(
             margin: const EdgeInsets.symmetric(
               vertical: 32,
             ),
@@ -928,20 +925,20 @@ double calculateTotalExpense(String chosenMonth) {
                 Text(
                   '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
                   style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 16),
                 chart,
               ],
-            ),)
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
 }
 
