@@ -486,9 +486,9 @@ class _MyProfileState extends State<MyProfile> {
 
   final List<User> userList = [
     User('Jessica', 'jessicainseoul@gmail.com', 'jessica1',
-        Icons.wallet_giftcard_rounded),
-    User('Johny', 'johnyfriends@gmail.com', 'johny2', Icons.money),
-    User('Max', 'maxfarmer@gmail.com', 'max3', Icons.handyman_outlined),
+        AssetImage('assets/images/jessica.png')),
+    User('Johny', 'johnyfriends@gmail.com', 'johny2', AssetImage('assets/images/johny.png')),
+    User('Max', 'maxfarmer@gmail.com', 'max3', AssetImage('assets/images/max.png')),
   ];
 
   @override
@@ -500,8 +500,8 @@ class _MyProfileState extends State<MyProfile> {
                 .infinity, // Set the width to fill the entire available space
             height: double
                 .infinity, // Set the height to fill the entire available space
-            color: const Color(
-                0xFFCAFFDC), // Set the background color for the entire screen
+            color: Color.fromARGB(255, 247, 251,248),
+            //const Color(0xFFCAFFDC), // Set the background color for the entire screen
             child: SingleChildScrollView(
               child: Center(
                 child: Padding(
@@ -510,6 +510,7 @@ class _MyProfileState extends State<MyProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 50),
                       Center(
                         child: Text(
                           'My Page',
@@ -531,12 +532,11 @@ class _MyProfileState extends State<MyProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // CircleAvatar(
-                          //   radius:
-                          //       50, // Adjust the radius to control the size of the circular image
-                          //   backgroundImage: AssetImage('assets/images/jessica.png'), // Replace with your image asset path
-                          // ),
-                          Icon(userNow.icon, size: 50), //userIcon
+                          CircleAvatar(
+                            radius:
+                                50, // Adjust the radius to control the size of the circular image
+                            backgroundImage: userNow.icon, // Replace with your image asset path
+                          ),
                           SizedBox(
                               width:
                                   20), // Add some spacing between the icon and text
@@ -688,7 +688,7 @@ class User {
   final String name;
   final String email;
   final String password;
-  final IconData icon;
+  final AssetImage icon;
 
   User(this.name, this.email, this.password, this.icon);
 }
@@ -1168,8 +1168,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 .infinity, // Set the width to fill the entire available space
             height: double
                 .infinity, // Set the height to fill the entire available space
-            color: Color.fromARGB(255, 247, 251,
-                248), // Set the background color for the entire screen
+            color: Color.fromARGB(255, 247, 251,248), // Set the background color for the entire screen
             child: SingleChildScrollView(
                 child: Center(
               child: Padding(
@@ -1180,6 +1179,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
 
                   // component of the page
                   children: [
+                    SizedBox(height: 50),
                     Center(
                       child: Text(
                         'My Spending',
