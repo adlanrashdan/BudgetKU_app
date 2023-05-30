@@ -8,6 +8,7 @@ void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
     home: WelcomePage(),
+    // home: MySpendingPage(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -998,7 +999,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
     return '${now.day}/$formattedMonth/${now.year}';
   }
 
-  void generateRandomTableRows() {
+  void recordTable() {
     tableRows.clear();
     //Months thisMonth = may;
     totalSpend = 0;
@@ -1042,8 +1043,8 @@ class _MySpendingPageState extends State<MySpendingPage> {
     for (int i = 0; i < rowCount; i++) {
       String title = spendRec[i].name;
       //String month = getMonthNumber(dropdownValue);
-      String month = spendRec[i].date.month.toString();
-      String day = spendRec[i].date.day.toString();
+      String month = spendRec[i].date.month.toString().padLeft(2, '0');
+      String day = spendRec[i].date.day.toString().padLeft(2, '0');
       String date = '$day/$month/2023';
       String category = spendRec[i].category;
       double amountNo = spendRec[i].amount;
@@ -1068,6 +1069,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
             width: 20,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
@@ -1095,7 +1097,6 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 textScaleFactor: 1.3,
                 style: TextStyle(
                   color: Colors.red,
-                  //color: amount.startsWith('-') ? Colors.red : Colors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -1114,9 +1115,8 @@ class _MySpendingPageState extends State<MySpendingPage> {
   @override
   void initState() {
     super.initState();
-    generateRandomTableRows();
+    recordTable();
   }
-
 
   void onTapText() {
     showDialog(
@@ -1168,14 +1168,161 @@ class _MySpendingPageState extends State<MySpendingPage> {
     );
   }
 
+  void handleNewSpending(BuildContext context) async {
+    String selectedCategory = 'Food';
+    TextEditingController titleController = TextEditingController();
+    TextEditingController amountController = TextEditingController();
+    var categories = [
+      'Entertainment',
+      'Food',
+      'Rent',
+      'Transportation',
+      'Utilities',
+    ];
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) => StatefulBuilder(
+        builder: (BuildContext context, StateSetter setStater) => AlertDialog(
+          title: Text('Add New Spending Record'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Text("Category:   "),
+                    DropdownButton<String>(
+                      value: selectedCategory,
+                      items: categories
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (dynamic newValue) {
+                        setStater(() {
+                          selectedCategory = newValue;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                TextField(
+                  controller: amountController,
+                  decoration: InputDecoration(
+                    labelText: 'Amount',
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  String title = titleController.text;
+                  String amount = amountController.text;
+                  String category = selectedCategory;
+                  String amountText = '(-$amount';
+                  String formattedDate = getFormattedDate(dropdownValue);
+
+                  TableRow newRow = TableRow(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            formattedDate,
+                            textScaleFactor: 1.2,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            category,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 21, 32, 159),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '$amountText KRW)',
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // SizedBox(width: 10),
+                      // Icon(Icons.edit)
+                    ],
+                  );
+
+                  tableRows.add(newRow);
+                  totalSpend+=int.parse(amount);
+
+                  titleController.clear();
+                  amountController.clear();
+                  Navigator.pop(context);
+                });
+              },
+              child: Text('Add'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   double allTotal = 0;
-  double remaining=0;
-  double progress=1;
+  double remaining = 0;
+  double progress = 1;
   @override
   Widget build(BuildContext context) {
     remaining = budget - totalSpend;
-    progress =
-        (remaining / budget).clamp(0.0, 1.0); // Calculate progress value
+    progress = (remaining / budget).clamp(0.0, 1.0); // Calculate progress value
     return Scaffold(
         body: Container(
             width: double
@@ -1255,8 +1402,8 @@ class _MySpendingPageState extends State<MySpendingPage> {
                         onChanged: (String? newValue) {
                           setState(() {
                             dropdownValue = newValue!;
-                            totalSpend=0;
-                            generateRandomTableRows();
+                            totalSpend = 0;
+                            recordTable();
                           });
                         },
                       ),
@@ -1277,7 +1424,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                           child: GestureDetector(
                             onTap: onTapText,
                             child: Text(
-                              budget.toStringAsFixed(0),
+                              '${budget.toStringAsFixed(0)} KRW',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -1306,7 +1453,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'Remainder: ₩ ${remaining.toStringAsFixed(0)}',
+                        'Remainder: ${remaining.toStringAsFixed(0)} KRW',
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -1331,7 +1478,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                               ),
                             ),
                             Text(
-                              '₩ ${totalSpend.toStringAsFixed(0)}',
+                              '${totalSpend.toStringAsFixed(0)} KRW',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -1347,153 +1494,11 @@ class _MySpendingPageState extends State<MySpendingPage> {
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                               ),
-                              onPressed: () async {
-                                TextEditingController titleController =
-                                    TextEditingController();
-                                TextEditingController amountController =
-                                    TextEditingController();
-
-                                TextEditingController categoryController =
-                                    TextEditingController();
-
-                                await showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Add New Spending Record'),
-                                      content: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            TextField(
-                                              controller: titleController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Title',
-                                              ),
-                                            ),
-                                            SizedBox(height: 16),
-                                            SizedBox(height: 16),
-                                            TextField(
-                                              controller: amountController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Amount',
-                                              ),
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .allow(RegExp(
-                                                        r'^-?\d*\.?\d*')),
-                                              ],
-                                            ),
-                                            SizedBox(height: 16),
-                                            TextField(
-                                              controller: categoryController,
-                                              decoration: InputDecoration(
-                                                labelText: 'Category',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Cancel'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              String title =
-                                                  titleController.text;
-                                              String amount =
-                                                  amountController.text;
-                                              String category =
-                                                  categoryController.text;
-
-                                              amount = '(-$amount';
-                                              String formattedDate =
-                                                  getFormattedDate(
-                                                      dropdownValue);
-
-                                              TableRow newRow = TableRow(
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        formattedDate,
-                                                        textScaleFactor: 1.2,
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        title,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 4),
-                                                      Text(
-                                                        category,
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Color.fromARGB(
-                                                              255, 21, 32, 159),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Expanded(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Text(
-                                                        '$amount KRW)',
-                                                        textScaleFactor: 1.3,
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  // SizedBox(width: 10),
-                                                  // Icon(Icons.edit)
-                                                ],
-                                              );
-
-                                              tableRows.add(newRow);
-
-                                              titleController.clear();
-                                              amountController.clear();
-                                              categoryController.clear();
-
-                                              Navigator.pop(context);
-                                            });
-                                          },
-                                          child: Text('Add'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                              onPressed: () => handleNewSpending(context),
                               child: const Text(
                                 '+',
                                 style: TextStyle(fontSize: 24),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -1527,7 +1532,6 @@ class Spending {
 
   Spending(this.date, this.name, this.category, this.amount);
 }
-
 
 class GroceriesCalculatorPage extends StatefulWidget {
   const GroceriesCalculatorPage({super.key});
@@ -2350,157 +2354,157 @@ class _MyDebtPageState extends State<MyDebtPage> {
 }
 
 Months jan = Months("January", "640000", [
+  Spending(DateTime(2023, 1, 01), "Playdoh", "Entertainment", 4500),
+  Spending(DateTime(2023, 1, 01), "RoyalIndian", "Food", 8100),
+  Spending(DateTime(2023, 1, 07), "Bicycle", "Rent", 7400),
+  Spending(DateTime(2023, 1, 08), "Heater", "Utilities", 81000),
   Spending(DateTime(2023, 1, 10), "House", "Rent", 360000),
-  Spending(DateTime(2023, 1, 8), "Heater", "Utilities", 81000),
-  Spending(DateTime(2023, 1, 7), "Bicycle", "Rent", 7400),
+  Spending(DateTime(2023, 1, 12), "Coffee", "Food", 1300),
+  Spending(DateTime(2023, 1, 13), "Cuckoo", "Rent", 7800),
   Spending(DateTime(2023, 1, 19), "Water", "Utilities", 2300),
   Spending(DateTime(2023, 1, 25), "Train", "Transportation", 8500),
-  Spending(DateTime(2023, 1, 13), "Cuckoo", "Rent", 7800),
-  Spending(DateTime(2023, 1, 1), "Playdoh", "Entertainment", 4500),
   Spending(DateTime(2023, 1, 25), "Kebab", "Food", 1300),
-  Spending(DateTime(2023, 1, 12), "Coffee", "Food", 1300),
-  Spending(DateTime(2023, 1, 1), "RoyalIndian", "Food", 8100),
 ]);
 
 Months feb = Months("February", "640000", [
-  Spending(DateTime(2023, 2, 27), "Expense 1", "Food", 7800),
-  Spending(DateTime(2023, 2, 16), "Expense 2", "Entertainment", 3500),
-  Spending(DateTime(2023, 2, 26), "Expense 3", "Transportation", 2600),
-  Spending(DateTime(2023, 2, 10), "Expense 4", "Utilities", 9600),
-  Spending(DateTime(2023, 2, 24), "Expense 5", "Rent", 9600),
-  Spending(DateTime(2023, 2, 14), "Expense 6", "Entertainment", 8300),
-  Spending(DateTime(2023, 2, 15), "Expense 7", "Rent", 9100),
-  Spending(DateTime(2023, 2, 22), "Expense 8", "Transportation", 9300),
-  Spending(DateTime(2023, 2, 16), "Expense 9", "Rent", 3500),
-  Spending(DateTime(2023, 2, 24), "Expense 10", "Transportation", 9600),
+  Spending(DateTime(2023, 2, 10), "Electric", "Utilities", 9600),
+  Spending(DateTime(2023, 2, 14), "Spotify", "Entertainment", 8300),
+  Spending(DateTime(2023, 2, 15), "Mcdonald", "Food", 9100),
+  Spending(DateTime(2023, 2, 16), "Noraebang", "Entertainment", 3500),
+  Spending(DateTime(2023, 2, 16), "Kimbab", "Food", 3500),
+  Spending(DateTime(2023, 2, 22), "Tmoney", "Transportation", 9300),
+  Spending(DateTime(2023, 2, 24), "Lotteria", "Food", 9600),
+  Spending(DateTime(2023, 2, 24), "Taxi", "Transportation", 9600),
+  Spending(DateTime(2023, 2, 26), "House", "Rent", 360000),
+  Spending(DateTime(2023, 2, 27), "Spagetti Gopizza", "Food", 14500),
 ]);
 
 Months mar = Months("March", "640000", [
-  Spending(DateTime(2023, 3, 25), "Expense 1", "Rent", 9300),
-  Spending(DateTime(2023, 3, 3), "Expense 2", "Rent", 3600),
-  Spending(DateTime(2023, 3, 5), "Expense 3", "Utilities", 7500),
-  Spending(DateTime(2023, 3, 16), "Expense 4", "Rent", 6100),
-  Spending(DateTime(2023, 3, 10), "Expense 5", "Transportation", 7600),
-  Spending(DateTime(2023, 3, 10), "Expense 6", "Entertainment", 8600),
-  Spending(DateTime(2023, 3, 25), "Expense 7", "Utilities", 8800),
-  Spending(DateTime(2023, 3, 8), "Expense 8", "Rent", 9600),
-  Spending(DateTime(2023, 3, 10), "Expense 9", "Utilities", 8900),
-  Spending(DateTime(2023, 3, 15), "Expense 10", "Food", 3100),
+  Spending(DateTime(2023, 3, 3), "House", "Rent", 360000),
+  Spending(DateTime(2023, 3, 5), "Alchon", "Food", 5500),
+  Spending(DateTime(2023, 3, 8), "Vanilla Latte", "Food", 4500),
+  Spending(DateTime(2023, 3, 10), "Beef Briyani", "Food", 14000),
+  Spending(DateTime(2023, 3, 10), "Film", "Entertainment", 8600),
+  Spending(DateTime(2023, 3, 10), "Electric", "Utilities", 8900),
+  Spending(DateTime(2023, 3, 15), "Angel N Us", "Food", 3100),
+  Spending(DateTime(2023, 3, 16), "Lamb Box", "Food", 15400),
+  Spending(DateTime(2023, 3, 25), "Musical", "Entertainment", 63000),
+  Spending(DateTime(2023, 3, 25), "Shrimp Burger", "Food", 9150),
 ]);
 
 Months april = Months("April", "640000", [
-  Spending(DateTime(2023, 4, 18), "Expense 1", "Utilities", 3700),
-  Spending(DateTime(2023, 4, 15), "Expense 2", "Food", 6200),
-  Spending(DateTime(2023, 4, 27), "Expense 3", "Transportation", 6600),
-  Spending(DateTime(2023, 4, 21), "Expense 4", "Entertainment", 3600),
-  Spending(DateTime(2023, 4, 12), "Expense 5", "Entertainment", 4400),
-  Spending(DateTime(2023, 4, 12), "Expense 6", "Rent", 8400),
-  Spending(DateTime(2023, 4, 21), "Expense 7", "Transportation", 2600),
-  Spending(DateTime(2023, 4, 5), "Expense 8", "Rent", 6700),
-  Spending(DateTime(2023, 4, 9), "Expense 9", "Food", 3600),
-  Spending(DateTime(2023, 4, 19), "Expense 10", "Rent", 8800),
+  Spending(DateTime(2023, 4, 5), "House", "Rent", 360000),
+  Spending(DateTime(2023, 4, 9), "GS", "Food", 3600),
+  Spending(DateTime(2023, 4, 12), "Photobooth", "Entertainment", 4400),
+  Spending(DateTime(2023, 4, 12), "Mineral Water", "Food", 950),
+  Spending(DateTime(2023, 4, 15), "Lotteria", "Food", 9300),
+  Spending(DateTime(2023, 4, 18), "Electric", "Utilities", 3700),
+  Spending(DateTime(2023, 4, 19), "Susu", "Food", 1900),
+  Spending(DateTime(2023, 4, 21), "Rose Flower,Hea", "Entertainment", 10000),
+  Spending(DateTime(2023, 4, 21), "Dolce Latte", "Food", 8910),
+  Spending(DateTime(2023, 4, 27), "Tmoney", "Transportation", 6600),
 ]);
 
 Months may = Months("May", "640000", [
-  Spending(DateTime(2023, 5, 28), "Expense 1", "Food", 3800),
-  Spending(DateTime(2023, 5, 27), "Expense 2", "Rent", 800),
-  Spending(DateTime(2023, 5, 23), "Expense 3", "Food", 4200),
-  Spending(DateTime(2023, 5, 5), "Expense 4", "Transportation", 1900),
-  Spending(DateTime(2023, 5, 15), "Expense 5", "Rent", 6200),
-  Spending(DateTime(2023, 5, 5), "Expense 6", "Entertainment", 4300),
-  Spending(DateTime(2023, 5, 19), "Expense 7", "Utilities", 9300),
-  Spending(DateTime(2023, 5, 13), "Expense 8", "Rent", 1200),
-  Spending(DateTime(2023, 5, 10), "Expense 9", "Rent", 200),
-  Spending(DateTime(2023, 5, 24), "Expense 10", "Utilities", 8700),
+  Spending(DateTime(2023, 5, 5), "House", "Rent", 360000),
+  Spending(DateTime(2023, 5, 5), "Film", "Entertainment", 4300),
+  Spending(DateTime(2023, 5, 10), "Nipong Naepong", "Food", 8500),
+  Spending(DateTime(2023, 5, 13), "Chicken Box", "Food", 9900),
+  Spending(DateTime(2023, 5, 15), "Granola ", "Food", 5420),
+  Spending(DateTime(2023, 5, 19), "Bicycle", "Transportation", 5000),
+  Spending(DateTime(2023, 5, 23), "Kimbab", "Food", 4200),
+  Spending(DateTime(2023, 5, 24), "Electric", "Utilities", 8700),
+  Spending(DateTime(2023, 5, 27), "Tmoney", "Transportation", 6600),
+  Spending(DateTime(2023, 5, 28), "Café Gate", "Food", 3800),
 ]);
 
 Months june = Months("June", "640000", [
-  Spending(DateTime(2023, 6, 7), "Expense 1", "Utilities", 9000),
-  Spending(DateTime(2023, 6, 15), "Expense 2", "Entertainment", 9500),
-  Spending(DateTime(2023, 6, 5), "Expense 3", "Food", 3700),
-  Spending(DateTime(2023, 6, 5), "Expense 4", "Rent", 1300),
-  Spending(DateTime(2023, 6, 18), "Expense 5", "Rent", 3500),
-  Spending(DateTime(2023, 6, 15), "Expense 6", "Utilities", 2800),
-  Spending(DateTime(2023, 6, 19), "Expense 7", "Food", 800),
-  Spending(DateTime(2023, 6, 7), "Expense 8", "Food", 7100),
-  Spending(DateTime(2023, 6, 9), "Expense 9", "Transportation", 4700),
-  Spending(DateTime(2023, 6, 8), "Expense 10", "Food", 8100),
+  Spending(DateTime(2023, 6, 5), "Front Cafe", "Food", 7500),
+  Spending(DateTime(2023, 6, 5), "Shrimp Burger", "Food", 9150),
+  Spending(DateTime(2023, 6, 7), "Electric", "Utilities", 9000),
+  Spending(DateTime(2023, 6, 7), "Market", "Food", 7100),
+  Spending(DateTime(2023, 6, 8), "House", "Rent", 360000),
+  Spending(DateTime(2023, 6, 9), "Beef Briyani", "Food", 14000),
+  Spending(DateTime(2023, 6, 15), "Spotify", "Entertainment", 9500),
+  Spending(DateTime(2023, 6, 15), "Kiwi", "Food", 2800),
+  Spending(DateTime(2023, 6, 18), "Tmoney", "Transportation", 6600),
+  Spending(DateTime(2023, 6, 19), "Ria Miracleset", "Food", 9434),
 ]);
 
 Months july = Months("July", "640000", [
-  Spending(DateTime(2023, 7, 9), "Expense 1", "Rent", 8500),
-  Spending(DateTime(2023, 7, 19), "Expense 2", "Entertainment", 900),
-  Spending(DateTime(2023, 7, 22), "Expense 3", "Transportation", 6800),
-  Spending(DateTime(2023, 7, 12), "Expense 4", "Utilities", 2300),
-  Spending(DateTime(2023, 7, 16), "Expense 5", "Food", 200),
-  Spending(DateTime(2023, 7, 19), "Expense 6", "Entertainment", 8000),
-  Spending(DateTime(2023, 7, 25), "Expense 7", "Entertainment", 2900),
-  Spending(DateTime(2023, 7, 28), "Expense 8", "Transportation", 5300),
-  Spending(DateTime(2023, 7, 9), "Expense 9", "Entertainment", 2700),
-  Spending(DateTime(2023, 7, 9), "Expense 10", "Utilities", 8100),
+  Spending(DateTime(2023, 7, 9), "Spotify", "Entertainment", 4500),
+  Spending(DateTime(2023, 7, 9), "Train", "Transportation", 8500),
+  Spending(DateTime(2023, 7, 9), "Water", "Utilities", 2300),
+  Spending(DateTime(2023, 7, 12), "Bicycle", "Transportation", 7400),
+  Spending(DateTime(2023, 7, 16), "Coffee", "Food", 1300),
+  Spending(DateTime(2023, 7, 19), "Cuckoo", "Rent", 7800),
+  Spending(DateTime(2023, 7, 19), "Heater", "Utilities", 81000),
+  Spending(DateTime(2023, 7, 22), "House", "Rent", 360000),
+  Spending(DateTime(2023, 7, 25), "Kebab", "Food", 1300),
+  Spending(DateTime(2023, 7, 28), "Royal Indian", "Food", 8100),
 ]);
 
 Months aug = Months("August", "640000", [
-  Spending(DateTime(2023, 8, 17), "Expense 1", "Transportation", 3400),
-  Spending(DateTime(2023, 8, 2), "Expense 2", "Transportation", 2800),
-  Spending(DateTime(2023, 8, 4), "Expense 3", "Utilities", 3700),
-  Spending(DateTime(2023, 8, 22), "Expense 4", "Transportation", 1700),
-  Spending(DateTime(2023, 8, 19), "Expense 5", "Rent", 100),
-  Spending(DateTime(2023, 8, 7), "Expense 6", "Food", 4300),
-  Spending(DateTime(2023, 8, 8), "Expense 7", "Rent", 5400),
-  Spending(DateTime(2023, 8, 14), "Expense 8", "Transportation", 700),
-  Spending(DateTime(2023, 8, 28), "Expense 9", "Entertainment", 2600),
-  Spending(DateTime(2023, 8, 11), "Expense 10", "Rent", 6300),
+  Spending(DateTime(2023, 8, 2), "Mcdonald", "Food", 9100),
+  Spending(DateTime(2023, 8, 4), "Spotify", "Entertainment", 8300),
+  Spending(DateTime(2023, 8, 7), "Taxi", "Transportation", 9600),
+  Spending(DateTime(2023, 8, 8), "Tmoney", "Transportation", 9300),
+  Spending(DateTime(2023, 8, 11), "Electric", "Utilities", 9600),
+  Spending(DateTime(2023, 8, 14), "House", "Rent", 360000),
+  Spending(DateTime(2023, 8, 17), "Kimbab", "Food", 3500),
+  Spending(DateTime(2023, 8, 19), "Lotteria", "Food", 9600),
+  Spending(DateTime(2023, 8, 22), "Noraebang", "Entertainment", 3500),
+  Spending(DateTime(2023, 8, 28), "Spagetti Gopizza", "Food", 14500),
 ]);
 
 Months sept = Months("September", "640000", [
-  Spending(DateTime(2023, 9, 24), "Expense 1", "Utilities", 2100),
-  Spending(DateTime(2023, 9, 27), "Expense 2", "Utilities", 7100),
-  Spending(DateTime(2023, 9, 3), "Expense 3", "Utilities", 4400),
-  Spending(DateTime(2023, 9, 14), "Expense 4", "Utilities", 3700),
-  Spending(DateTime(2023, 9, 4), "Expense 5", "Transportation", 8300),
-  Spending(DateTime(2023, 9, 16), "Expense 6", "Transportation", 6600),
-  Spending(DateTime(2023, 9, 2), "Expense 7", "Transportation", 2900),
-  Spending(DateTime(2023, 9, 18), "Expense 8", "Entertainment", 7800),
-  Spending(DateTime(2023, 9, 4), "Expense 9", "Transportation", 5600),
-  Spending(DateTime(2023, 9, 13), "Expense 10", "Rent", 2200),
+  Spending(DateTime(2023, 9, 2), "Film", "Entertainment", 8600),
+  Spending(DateTime(2023, 9, 3), "Musical", "Entertainment", 63000),
+  Spending(DateTime(2023, 9, 4), "Shrimp Burgerset", "Food", 9150),
+  Spending(DateTime(2023, 9, 4), "Vanilla Latte", "Food", 4500),
+  Spending(DateTime(2023, 9, 13), "Alchon", "Food", 5500),
+  Spending(DateTime(2023, 9, 14), "Angel N Us", "Food", 3100),
+  Spending(DateTime(2023, 9, 16), "Beef Briyani", "Food", 14000),
+  Spending(DateTime(2023, 9, 18), "Electric", "Utilities", 8900),
+  Spending(DateTime(2023, 9, 24), "House", "Rent", 360000),
+  Spending(DateTime(2023, 9, 27), "Lamb Box ", "Food", 15400),
 ]);
 
 Months oct = Months("October", "640000", [
-  Spending(DateTime(2023, 10, 22), "Expense 1", "Transportation", 2900),
-  Spending(DateTime(2023, 10, 13), "Expense 2", "Rent", 5800),
-  Spending(DateTime(2023, 10, 3), "Expense 3", "Entertainment", 4400),
-  Spending(DateTime(2023, 10, 15), "Expense 4", "Transportation", 3300),
-  Spending(DateTime(2023, 10, 4), "Expense 5", "Transportation", 9000),
-  Spending(DateTime(2023, 10, 3), "Expense 6", "Food", 5400),
-  Spending(DateTime(2023, 10, 11), "Expense 7", "Utilities", 1500),
-  Spending(DateTime(2023, 10, 25), "Expense 8", "Rent", 4100),
-  Spending(DateTime(2023, 10, 23), "Expense 9", "Food", 7300),
-  Spending(DateTime(2023, 10, 7), "Expense 10", "Entertainment", 4500),
+  Spending(DateTime(2023, 10, 3), "Dolce Latte Kanu X24", "Food", 8910),
+  Spending(DateTime(2023, 10, 3), "Tmoney", "Transportation", 6600),
+  Spending(DateTime(2023, 10, 4), "House", "Rent", 360000),
+  Spending(DateTime(2023, 10, 7), "GS", "Food", 3600),
+  Spending(DateTime(2023, 10, 11), "Photobooth", "Entertainment", 4400),
+  Spending(DateTime(2023, 10, 13), "Mineral Water", "Food", 950),
+  Spending(DateTime(2023, 10, 15), "Lotteria", "Food", 9300),
+  Spending(DateTime(2023, 10, 22), "Electric", "Utilities", 3700),
+  Spending(DateTime(2023, 10, 23), "Susu", "Food", 1900),
+  Spending(DateTime(2023, 10, 25), "Rose", "Entertainment", 10000),
 ]);
 
 Months nov = Months("November", "640000", [
-  Spending(DateTime(2023, 11, 2), "Expense 1", "Entertainment", 7600),
-  Spending(DateTime(2023, 11, 13), "Expense 2", "Rent", 3100),
-  Spending(DateTime(2023, 11, 12), "Expense 3", "Transportation", 2000),
-  Spending(DateTime(2023, 11, 7), "Expense 4", "Rent", 9700),
-  Spending(DateTime(2023, 11, 1), "Expense 5", "Food", 7200),
-  Spending(DateTime(2023, 11, 25), "Expense 6", "Entertainment", 1300),
-  Spending(DateTime(2023, 11, 8), "Expense 7", "Transportation", 7800),
-  Spending(DateTime(2023, 11, 2), "Expense 8", "Utilities", 7000),
-  Spending(DateTime(2023, 11, 26), "Expense 9", "Entertainment", 6400),
-  Spending(DateTime(2023, 11, 1), "Expense 10", "Entertainment", 2000),
+  Spending(DateTime(2023, 11, 1), "Nipong Naepong", "Food", 8500),
+  Spending(DateTime(2023, 11, 1), "Chicken Box ", "Food", 9900),
+  Spending(DateTime(2023, 11, 2), "Kimbab", "Food", 4200),
+  Spending(DateTime(2023, 11, 2), "Electric", "Utilities", 8700),
+  Spending(DateTime(2023, 11, 7), "House", "Rent", 360000),
+  Spending(DateTime(2023, 11, 8), "Film", "Entertainment", 4300),
+  Spending(DateTime(2023, 11, 12), "Granola", "Food", 5420),
+  Spending(DateTime(2023, 11, 13), "Bicycle", "Transportation", 5000),
+  Spending(DateTime(2023, 11, 25), "Tmoney", "Transportation", 6600),
+  Spending(DateTime(2023, 11, 26), "Café Gate", "Food", 3800),
 ]);
 
 Months dec = Months("December", "640000", [
-  Spending(DateTime(2023, 12, 23), "Expense 1", "Food", 600),
-  Spending(DateTime(2023, 12, 8), "Expense 2", "Utilities", 7000),
-  Spending(DateTime(2023, 12, 15), "Expense 3", "Rent", 600),
-  Spending(DateTime(2023, 12, 16), "Expense 4", "Utilities", 2200),
-  Spending(DateTime(2023, 12, 26), "Expense 5", "Utilities", 300),
-  Spending(DateTime(2023, 12, 5), "Expense 6", "Food", 1700),
-  Spending(DateTime(2023, 12, 23), "Expense 7", "Rent", 8200),
-  Spending(DateTime(2023, 12, 2), "Expense 8", "Entertainment", 6000),
-  Spending(DateTime(2023, 12, 12), "Expense 9", "Rent", 6800),
-  Spending(DateTime(2023, 12, 17), "Expense 10", "Transportation", 7200),
+  Spending(DateTime(2023, 12, 2), "Front Cafe", "Food", 7500),
+  Spending(DateTime(2023, 12, 5), "House", "Rent", 360000),
+  Spending(DateTime(2023, 12, 8), "Beef Briyani", "Food", 14000),
+  Spending(DateTime(2023, 12, 12), "Spotify", "Entertainment", 9500),
+  Spending(DateTime(2023, 12, 15), "Kiwi", "Food", 2800),
+  Spending(DateTime(2023, 12, 16), "Tmoney", "Transportation", 6600),
+  Spending(DateTime(2023, 12, 17), "Ria Miracleset", "Food", 9434),
+  Spending(DateTime(2023, 12, 23), "Shrimp Burger", "Food", 9150),
+  Spending(DateTime(2023, 12, 23), "Electric", "Utilities", 9000),
+  Spending(DateTime(2023, 12, 26), "Market", "Food", 7100),
 ]);
