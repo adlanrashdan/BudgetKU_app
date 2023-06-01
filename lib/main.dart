@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyPage()),
+                      MaterialPageRoute(builder: (context) => const MySpendingPage()),
                     );
                   },
                   child: const Text('Login'),
@@ -396,7 +396,7 @@ class SignUpPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const MyPage()),
+                                  builder: (context) => const MySpendingPage()),
                             );
                           },
                           child: const Text('Register'),
@@ -411,7 +411,7 @@ class SignUpPage extends StatelessWidget {
 }
 
 class MyPage extends StatefulWidget {
-  const MyPage({super.key});
+  const MyPage({Key? key}) : super(key: key);
 
   @override
   _MyPageState createState() => _MyPageState();
@@ -431,47 +431,88 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-          color: const Color(0xFFCAFFDC), // Set the background color
-          child: _pages[_currentIndex],
-        ),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: const Color(
-                0xFF58906E), // Set the background color of the BottomNavigationBar
-          ),
-          child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                label: 'My Page',
+      body: Container(
+        color: const Color(0xFFCAFFDC), // Set the background color
+        child: _pages[_currentIndex],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _buildCenterFab(),
+      bottomNavigationBar: _buildBottomAppBar(),
+    );
+  }
+
+  BottomAppBar _buildBottomAppBar() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      color: const Color(0xFF58906E),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          _buildNavigationItem(Icons.person, 'MyPage', 0),
+          _buildNavigationItem(Icons.graphic_eq, 'MyExpense', 1),
+          SizedBox(), // Empty space to center the FAB
+          _buildNavigationItem(Icons.shopping_cart, 'Groceries', 3),
+          _buildNavigationItem(Icons.attach_money, 'MyDebt', 4),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationItem(IconData icon, String label, int index) {
+    final isSelected = index == _currentIndex;
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? Colors.white : Color.fromARGB(255, 10, 66, 12),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.graphic_eq),
-                label: 'My Expense',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.edit),
-                label: 'My Spending',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: 'Groceries',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.attach_money),
-                label: 'My Debt',
+              SizedBox(height: 4.0),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? Colors.white :Color.fromARGB(255, 10, 66, 12),
+                ),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
+
+  Widget _buildCenterFab() {
+  final isSelected = _currentIndex == 2; // Check if My Spending is selected
+
+  return Container(
+    width: 65.0,
+    height: 65.0,
+    child: FloatingActionButton(
+      onPressed: () {
+        setState(() {
+          _currentIndex = 2; // Set the current index to My Spending page
+        });
+      },
+      backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
+      child: Icon(
+        Icons.edit, 
+        size: 32.0,
+        color: isSelected ? const Color(0xFF58906E) : Colors.white,
+      ),
+    ),
+  );
+}
+
 }
 
 class MyProfile extends StatefulWidget {
@@ -867,7 +908,8 @@ class _MyExpensePageState extends State<MyExpensePage> {
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFCAFFDC), // Set the background color here
+      backgroundColor: Color.fromARGB(255, 247, 251,
+                248), // Set the background color here
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -922,6 +964,11 @@ class _MyExpensePageState extends State<MyExpensePage> {
                 ],
               ),
             ),
+            SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),
             Container(
               margin: const EdgeInsets.symmetric(
                 vertical: 32,
@@ -1494,7 +1541,150 @@ class _MySpendingPageState extends State<MySpendingPage> {
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                               ),
-                              onPressed: () => handleNewSpending(context),
+                              onPressed: () async {
+                                TextEditingController titleController =
+                                    TextEditingController();
+                                TextEditingController amountController =
+                                    TextEditingController();
+
+                                TextEditingController categoryController =
+                                    TextEditingController();
+
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Add New Spending Record'),
+                                      content: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            TextField(
+                                              controller: titleController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Title',
+                                              ),
+                                            ),
+                                            SizedBox(height: 16),
+                                            SizedBox(height: 16),
+                                            TextField(
+                                              controller: amountController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Amount',
+                                              ),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(
+                                                        r'^-?\d*\.?\d*')),
+                                              ],
+                                            ),
+                                            SizedBox(height: 16),
+                                            TextField(
+                                              controller: categoryController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Category',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Cancel'),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              String title =
+                                                  titleController.text;
+                                              String amount =
+                                                  amountController.text;
+                                              String category =
+                                                  categoryController.text;
+
+                                              amount = '(-$amount';
+                                              String formattedDate =
+                                                  getFormattedDate(
+                                                      dropdownValue);
+
+                                              TableRow newRow = TableRow(
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        formattedDate,
+                                                        textScaleFactor: 1.2,
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        title,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        category,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Color.fromARGB(
+                                                              255, 21, 32, 159),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                        '$amount KRW)',
+                                                        textScaleFactor: 1.3,
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // SizedBox(width: 10),
+                                                  // Icon(Icons.edit)
+                                                ],
+                                              );
+
+                                              tableRows.add(newRow);
+
+                                              titleController.clear();
+                                              amountController.clear();
+                                              categoryController.clear();
+
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text('Add'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                               child: const Text(
                                 '+',
                                 style: TextStyle(fontSize: 24),
@@ -1586,7 +1776,8 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFCAFFDC),
+      backgroundColor: Color.fromARGB(255, 247, 251,
+                248),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -1600,9 +1791,15 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
+                          color: Color(0xFF1B5E20),
                   ),
                 ),
               ),
+              SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),
               const SizedBox(height: 16.0),
               Text('Today\'s Budget: ${NumberFormat('#,###').format(budget)}₩'),
               TextField(
@@ -1625,7 +1822,10 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
                 children: [
                   Text(
                     'Grocery List:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20, // Increase the font size to 20
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () => addItem(context),
@@ -1638,7 +1838,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
               ),
               const SizedBox(height: 8.0),
               Container(
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.3,
                 child: ListView(
                   shrinkWrap: true,
                   children: [
@@ -1747,6 +1947,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
+           style: ElevatedButton.styleFrom(
+                    primary: Colors.green),
           onPressed: () {
             if (_formKey.currentState?.validate() ?? false) {
               _formKey.currentState?.save();
@@ -1958,16 +2160,23 @@ class _MyDebtPageState extends State<MyDebtPage> {
         child: SafeArea(
           child: ListView(
             children: [
-              SizedBox(height: 40),
-              Center(
-                child: Text(
-                  'My Debt Page',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              SizedBox(height: 50),
+                    Center(
+                      child: Text(
+                        'My Debt',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1B5E20),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),    
               SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -2246,6 +2455,8 @@ class _MyDebtPageState extends State<MyDebtPage> {
                               child: Text('Cancel'),
                             ),
                             ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                    primary: Colors.green),
                               onPressed: () {
                                 setState(() {
                                   String title = titleController.text;
@@ -2255,7 +2466,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                   String person = personController.text;
 
                                   amount = selectedSign == '+'
-                                      ? '(+$amount'
+                                      ? '($amount'
                                       : '(-$amount';
                                   String formattedDate =
                                       getFormattedDate(dropdownValue);
@@ -2344,7 +2555,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 35),
             ],
           ),
         ),
