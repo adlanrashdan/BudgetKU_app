@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MySpendingPage()),
+                      MaterialPageRoute(builder: (context) => const MyPage()),
                     );
                   },
                   child: const Text('Login'),
@@ -396,7 +396,7 @@ class SignUpPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const MySpendingPage()),
+                                  builder: (context) => const MyPage()),
                             );
                           },
                           child: const Text('Register'),
@@ -418,7 +418,7 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   final List<Widget> _pages = [
     MyProfile(),
