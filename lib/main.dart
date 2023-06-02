@@ -474,13 +474,16 @@ class _MyPageState extends State<MyPage> {
             children: [
               Icon(
                 icon,
-                color: isSelected ? Colors.white : Color.fromARGB(255, 10, 66, 12),
+                color:
+                    isSelected ? Colors.white : Color.fromARGB(255, 10, 66, 12),
               ),
               SizedBox(height: 4.0),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? Colors.white :Color.fromARGB(255, 10, 66, 12),
+                  color: isSelected
+                      ? Colors.white
+                      : Color.fromARGB(255, 10, 66, 12),
                 ),
               ),
             ],
@@ -491,27 +494,26 @@ class _MyPageState extends State<MyPage> {
   }
 
   Widget _buildCenterFab() {
-  final isSelected = _currentIndex == 2; // Check if My Spending is selected
+    final isSelected = _currentIndex == 2; // Check if My Spending is selected
 
-  return Container(
-    width: 65.0,
-    height: 65.0,
-    child: FloatingActionButton(
-      onPressed: () {
-        setState(() {
-          _currentIndex = 2; // Set the current index to My Spending page
-        });
-      },
-      backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
-      child: Icon(
-        Icons.edit, 
-        size: 32.0,
-        color: isSelected ? const Color(0xFF58906E) : Colors.white,
+    return Container(
+      width: 65.0,
+      height: 65.0,
+      child: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _currentIndex = 2; // Set the current index to My Spending page
+          });
+        },
+        backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
+        child: Icon(
+          Icons.edit,
+          size: 32.0,
+          color: isSelected ? const Color(0xFF58906E) : Colors.white,
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class MyProfile extends StatefulWidget {
@@ -750,88 +752,88 @@ class _MyExpensePageState extends State<MyExpensePage> {
   String dropdownValue = 'January'; // Default dropdown value
   final Map<String, Map<String, double>> expenseData = {
     'January': {
-      'Rent': 750000,
-      'Utilities': 150000,
-      'Transportation': 100000,
-      'Food': 400000,
-      'Entertainment': 80000,
+      "Rent": 367800,
+      "Utilities": 83300,
+      "Transportation": 15900,
+      "Food": 10700,
+      "Entertainment": 4500,
     },
     'February': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 380000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 9600,
+      "Transportation": 18900,
+      "Food": 36700,
+      "Entertainment": 11800,
     },
     'March': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 100000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 360000,
+      "Utilities": 8900,
+      "Transportation": 0,
+      "Food": 51650,
+      "Entertainment": 71600,
     },
     'April': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 3700,
+      "Transportation": 6600,
+      "Food": 24660,
+      "Entertainment": 14400,
     },
     'May': {
-      'Rent': 730000,
-      'Utilities': 150000,
-      'Transportation': 105000,
-      'Food': 400000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 8700,
+      "Transportation": 11600,
+      "Food": 31820,
+      "Entertainment": 4300,
     },
     'June': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 390000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9000,
+      "Transportation": 6600,
+      "Food": 49984,
+      "Entertainment": 9500,
     },
     'July': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 105000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 367800,
+      "Utilities": 83300,
+      "Transportation": 15900,
+      "Food": 10700,
+      "Entertainment": 4500,
     },
     'August': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9600,
+      "Transportation": 18900,
+      "Food": 36700,
+      "Entertainment": 11800,
     },
     'September': {
-      'Rent': 730000,
-      'Utilities': 150000,
-      'Transportation': 105000,
-      'Food': 400000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 8900,
+      "Transportation": 0,
+      "Food": 51650,
+      "Entertainment": 71600,
     },
     'October': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 390000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 3700,
+      "Transportation": 6600,
+      "Food": 24660,
+      "Entertainment": 14400,
     },
     'November': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 105000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 360000,
+      "Utilities": 8700,
+      "Transportation": 11600,
+      "Food": 31820,
+      "Entertainment": 4300,
     },
     'December': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9000,
+      "Transportation": 6600,
+      "Food": 49984,
+      "Entertainment": 9500,
     },
   };
 
@@ -907,8 +909,8 @@ class _MyExpensePageState extends State<MyExpensePage> {
     );
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 247, 251,
-                248), // Set the background color here
+      backgroundColor:
+          Color.fromARGB(255, 247, 251, 248), // Set the background color here
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -964,10 +966,10 @@ class _MyExpensePageState extends State<MyExpensePage> {
               ),
             ),
             SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),
+            Divider(
+              height: 1,
+              color: Color(0xFF1B5E20),
+            ),
             Container(
               margin: const EdgeInsets.symmetric(
                 vertical: 32,
@@ -1347,7 +1349,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                   );
 
                   tableRows.add(newRow);
-                  totalSpend+=int.parse(amount);
+                  totalSpend += int.parse(amount);
 
                   titleController.clear();
                   amountController.clear();
@@ -1632,8 +1634,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 247, 251,
-                248),
+      backgroundColor: Color.fromARGB(255, 247, 251, 248),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -1647,15 +1648,15 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B5E20),
+                    color: Color(0xFF1B5E20),
                   ),
                 ),
               ),
               SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),
+              Divider(
+                height: 1,
+                color: Color(0xFF1B5E20),
+              ),
               const SizedBox(height: 16.0),
               Text('Today\'s Budget: ${NumberFormat('#,###').format(budget)}₩'),
               TextField(
@@ -1803,8 +1804,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-           style: ElevatedButton.styleFrom(
-                    primary: Colors.green),
+          style: ElevatedButton.styleFrom(primary: Colors.green),
           onPressed: () {
             if (_formKey.currentState?.validate() ?? false) {
               _formKey.currentState?.save();
@@ -2017,22 +2017,22 @@ class _MyDebtPageState extends State<MyDebtPage> {
           child: ListView(
             children: [
               SizedBox(height: 50),
-                    Center(
-                      child: Text(
-                        'My Debt',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B5E20),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),    
+              Center(
+                child: Text(
+                  'My Debt',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1B5E20),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Divider(
+                height: 1,
+                color: Color(0xFF1B5E20),
+              ),
               SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -2312,7 +2312,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                    primary: Colors.green),
+                                  primary: Colors.green),
                               onPressed: () {
                                 setState(() {
                                   String title = titleController.text;
