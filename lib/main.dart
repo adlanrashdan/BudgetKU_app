@@ -19,8 +19,7 @@ class WelcomePage extends StatefulWidget {
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage>
-    with SingleTickerProviderStateMixin {
+class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -50,31 +49,24 @@ class _WelcomePageState extends State<WelcomePage>
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFCAFFDC),
-                  Color(0xFFCAFFDC),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+          Image.asset(
+            'assets/images/background_img.jpg', // Replace with your own image path
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FadeTransition(
-                  opacity: _animation,
-                  child: Image.asset(
-                    'assets/images/app_logo.png',
-                    width: 160,
-                    height: 160,
-                  ),
+                 FadeTransition(
+                opacity: _animation,
+                child: CircleAvatar(
+                  radius: 80,
+                  backgroundImage: AssetImage('assets/images/app_logo.png'),
                 ),
-                const SizedBox(height: 32),
+              ),
+                const SizedBox(height: 49),
                 Text(
                   'BUDGETKU',
                   style: TextStyle(
@@ -105,8 +97,7 @@ class _WelcomePageState extends State<WelcomePage>
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
                       );
                     },
                     child: Center(
@@ -1871,119 +1862,123 @@ class _MyDebtPageState extends State<MyDebtPage> {
   }
 
   void generateRandomTableRows() {
-    tableRows.clear();
-    paidTableRows.clear();
-    nonPaidTableRows.clear();
+  tableRows.clear();
+  paidTableRows.clear();
+  nonPaidTableRows.clear();
 
-    int rowCount =
-        random.nextInt(6) + 1; // Random number of rows between 1 and 6
-    final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
-    final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
-    final List<String> personList = [
-      'Wani',
-      'Jennie',
-      'Miyeon',
-      'Yeran',
-      'Adlan',
-      'Jani',
-      'Emily',
-      'Lee',
-      'Hong'
-    ];
-    final List<String> titleList = [
-      'Mcdonald',
-      'Travel',
-      'Event',
-      'Drink',
-      'Travel',
-      'Dayout',
-      'Party',
-      'Cafe',
-      'Lunch',
-      'Dinner'
-    ];
+  int rowCount = random.nextInt(6) + 1; // Random number of rows between 1 and 6
+  final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
+  final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
+  final List<String> personList = [
+    'Wani',
+    'Jennie',
+    'Miyeon',
+    'Yeran',
+    'Adlan',
+    'Jani',
+    'Emily',
+    'Lee',
+    'Hong'
+  ];
+  final List<String> titleList = [
+    'Mcdonald',
+    'Travel',
+    'Event',
+    'Drink',
+    'Travel',
+    'Dayout',
+    'Party',
+    'Cafe',
+    'Lunch',
+    'Dinner'
+  ];
 
-    for (int i = 0; i < rowCount; i++) {
-      String title = titleList[random.nextInt(titleList.length)];
-      String month = getMonthNumber(dropdownValue);
-      String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
-      String date = '$day/$month/2023';
-      String amount =
-          (amountList[random.nextInt(amountList.length)] - 9000).toString();
-      String totalAmount =
-          (totalAmountList[random.nextInt(totalAmountList.length)] - 100)
-              .toString();
-      String person = personList[random.nextInt(personList.length)];
+  DateTime now = DateTime.now();
 
-      TableRow newRow = TableRow(
-        children: [
-          Column(
-            children: [
-              Text(
-                title,
-                textScaleFactor: 1.5,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+  for (int i = 0; i < rowCount; i++) {
+    String title = titleList[random.nextInt(titleList.length)];
+    String month = getMonthNumber(dropdownValue);
+    String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
+    DateTime randomDate = DateTime(now.year, int.parse(month), int.parse(day));
+    
+    // Skip rows with dates after today
+    if (randomDate.isAfter(now)) {
+      continue;
+    }
+
+    String date = '$day/$month/${now.year}';
+    String amount = (amountList[random.nextInt(amountList.length)] - 9000).toString();
+    String totalAmount = (totalAmountList[random.nextInt(totalAmountList.length)] - 100).toString();
+    String person = personList[random.nextInt(personList.length)];
+
+    TableRow newRow = TableRow(
+      children: [
+        Column(
+          children: [
+            Text(
+              title,
+              textScaleFactor: 1.5,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              SizedBox(height: 4),
-              Text(
-                date,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              date,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
               ),
-            ],
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                '($amount KRW)',
-                textScaleFactor: 1.3,
-                style: TextStyle(
-                  color: amount.startsWith('-') ? Colors.red : Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              '($amount KRW)',
+              textScaleFactor: 1.3,
+              style: TextStyle(
+                color: amount.startsWith('-') ? Colors.red : Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
           ),
-          Column(
-            children: [
-              Text(
-                '$totalAmount KRW',
-                textScaleFactor: 1.5,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
+        ),
+        Column(
+          children: [
+            Text(
+              '$totalAmount KRW',
+              textScaleFactor: 1.5,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
               ),
-              SizedBox(height: 4),
-              Text(
-                person,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              person,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
               ),
-            ],
-          ),
-        ],
-      );
+            ),
+          ],
+        ),
+      ],
+    );
 
-      tableRows.add(newRow);
+    tableRows.add(newRow);
 
-      int paidRowCount = random.nextInt(tableRows.length);
-      int nonPaidRowCount = tableRows.length - paidRowCount;
+    int paidRowCount = random.nextInt(tableRows.length);
+    int nonPaidRowCount = tableRows.length - paidRowCount;
 
-      paidTableRows = List.generate(
-          paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
-      nonPaidTableRows =
-          tableRows.where((row) => !paidTableRows.contains(row)).toList();
-    }
+    paidTableRows = List.generate(paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
+    nonPaidTableRows = tableRows.where((row) => !paidTableRows.contains(row)).toList();
   }
+}
+
 
   void settleDebt(int index) {
     setState(() {
