@@ -65,6 +65,7 @@ flutter:
 
   assets:
   - assets\images\app_logo.png
+  - assets\images\app_logo.jpg
   - assets\images\jessica.png
   - assets\images\johny.png
   - assets\images\max.png
