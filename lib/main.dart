@@ -63,7 +63,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
                 opacity: _animation,
                 child: CircleAvatar(
                   radius: 80,
-                  backgroundImage: AssetImage('assets/images/app_logo.png'),
+                  backgroundImage: AssetImage('assets/images/app_logo.jpg'),
                 ),
               ),
                 const SizedBox(height: 49),
@@ -472,6 +472,7 @@ class _MyPageState extends State<MyPage> {
               Text(
                 label,
                 style: TextStyle(
+                    fontSize: 12.0,
                   color: isSelected
                       ? Colors.white
                       : Color.fromARGB(255, 10, 66, 12),
@@ -499,7 +500,7 @@ class _MyPageState extends State<MyPage> {
         backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
         child: Icon(
           Icons.edit,
-          size: 32.0,
+          size: 28.0,
           color: isSelected ? const Color(0xFF58906E) : Colors.white,
         ),
       ),
@@ -1137,7 +1138,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 13,
                 ),
               ),
             ),
@@ -1275,6 +1276,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
               child: Text('Cancel'),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.green),
               onPressed: () {
                 setState(() {
                   String title = titleController.text;
@@ -1881,7 +1883,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
     'Hong'
   ];
   final List<String> titleList = [
-    'Mcdonald',
+    'Mcd',
     'Travel',
     'Event',
     'Drink',
@@ -1941,7 +1943,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
               style: TextStyle(
                 color: amount.startsWith('-') ? Colors.red : Colors.green,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 13,
               ),
             ),
           ),
@@ -1953,7 +1955,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
               textScaleFactor: 1.5,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 13,
+                fontSize: 12,
               ),
             ),
             SizedBox(height: 4),
@@ -2011,7 +2013,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
         child: SafeArea(
           child: ListView(
             children: [
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               Center(
                 child: Text(
                   'My Debt',
@@ -2035,7 +2037,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$dropdownValue\'s Debt Record',
+                      '$dropdownValue\'s Record',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
