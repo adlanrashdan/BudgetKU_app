@@ -789,9 +789,9 @@ class _MyExpensePageState extends State<MyExpensePage> {
     'June': {
       "Rent": 360000,
       "Utilities": 9000,
-      "Transportation": 6600,
-      "Food": 49984,
-      "Entertainment": 9500,
+      "Transportation": 0,
+      "Food": 23750,
+      "Entertainment": 0,
     },
     'July': {
       "Rent": 367800,
@@ -2486,16 +2486,11 @@ Months may = Months("May", "640000", [
 ]);
 
 Months june = Months("June", "640000", [
-  Spending(DateTime(2023, 6, 5), "Front Cafe", "Food", 7500),
-  Spending(DateTime(2023, 6, 5), "Shrimp Burger", "Food", 9150),
-  Spending(DateTime(2023, 6, 7), "Electric", "Utilities", 9000),
-  Spending(DateTime(2023, 6, 7), "Market", "Food", 7100),
-  Spending(DateTime(2023, 6, 8), "House", "Rent", 360000),
-  Spending(DateTime(2023, 6, 9), "Beef Briyani", "Food", 14000),
-  Spending(DateTime(2023, 6, 15), "Spotify", "Entertainment", 9500),
-  Spending(DateTime(2023, 6, 15), "Kiwi", "Food", 2800),
-  Spending(DateTime(2023, 6, 18), "Tmoney", "Transportation", 6600),
-  Spending(DateTime(2023, 6, 19), "Ria Miracleset", "Food", 9434),
+  Spending(DateTime(2023, 6, 1), "Front Cafe", "Food", 7500),
+  Spending(DateTime(2023, 6, 1), "Shrimp Burger", "Food", 9150),
+  Spending(DateTime(2023, 6, 2), "Electric", "Utilities", 9000),
+  Spending(DateTime(2023, 6, 3), "Market", "Food", 7100),
+  Spending(DateTime(2023, 6, 3), "House", "Rent", 360000),
 ]);
 
 Months july = Months("July", "640000", [
