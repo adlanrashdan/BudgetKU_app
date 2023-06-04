@@ -530,7 +530,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final userNow = userList[2];
+    final userNow = userList[1];
     return Scaffold(
         body: Container(
             width: double
@@ -741,7 +741,7 @@ class MyExpensePage extends StatefulWidget {
 }
 
 class _MyExpensePageState extends State<MyExpensePage> {
-  String dropdownValue = 'January'; // Default dropdown value
+  String dropdownValue = 'June'; // Default dropdown value
   final Map<String, Map<String, double>> expenseData = {
     'January': {
       "Rent": 367800,
@@ -994,7 +994,7 @@ class MySpendingPage extends StatefulWidget {
 }
 
 class _MySpendingPageState extends State<MySpendingPage> {
-  String dropdownValue = 'January';
+  String dropdownValue = 'June';
   double totalSpend = 0;
   double budget = 1000000;
   Months thisMonth = jan;
@@ -1331,7 +1331,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                             style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -1819,7 +1819,7 @@ class MyDebtPage extends StatefulWidget {
 }
 
 class _MyDebtPageState extends State<MyDebtPage> {
-  String dropdownValue = 'January';
+  String dropdownValue = 'June';
   List<TableRow> tableRows = [];
   List<TableRow> paidTableRows = [];
   List<TableRow> nonPaidTableRows = [];
@@ -2356,7 +2356,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                                   ? Colors.green
                                                   : Colors.red,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                              fontSize: 13,
                                             ),
                                           ),
                                         ),
@@ -2368,7 +2368,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                             textScaleFactor: 1.5,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 13,
+                                              fontSize: 12,
                                             ),
                                           ),
                                           SizedBox(height: 4),
