@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+
 
 void main() {
   runApp(const MaterialApp(
@@ -741,7 +743,9 @@ class MyExpensePage extends StatefulWidget {
 }
 
 class _MyExpensePageState extends State<MyExpensePage> {
-  String dropdownValue = 'June'; // Default dropdown value
+  String dropdownValue = 'January'; // Default dropdown value
+  bool isMonthView = true; // initialize the view as Month view
+
   final Map<String, Map<String, double>> expenseData = {
     'January': {
       "Rent": 367800,
@@ -760,14 +764,14 @@ class _MyExpensePageState extends State<MyExpensePage> {
     'March': {
       "Rent": 360000,
       "Utilities": 8900,
-      "Transportation": 0,
+      "Transportation": 20000,
       "Food": 51650,
       "Entertainment": 71600,
     },
     'April': {
       "Rent": 360000,
       "Utilities": 3700,
-      "Transportation": 6600,
+      "Transportation": 16000,
       "Food": 24660,
       "Entertainment": 14400,
     },
@@ -781,9 +785,9 @@ class _MyExpensePageState extends State<MyExpensePage> {
     'June': {
       "Rent": 360000,
       "Utilities": 9000,
-      "Transportation": 0,
+      "Transportation": 30000,
       "Food": 23750,
-      "Entertainment": 0,
+      "Entertainment": 20000,
     },
     'July': {
       "Rent": 367800,
@@ -802,7 +806,7 @@ class _MyExpensePageState extends State<MyExpensePage> {
     'September': {
       "Rent": 360000,
       "Utilities": 8900,
-      "Transportation": 0,
+      "Transportation": 22000,
       "Food": 51650,
       "Entertainment": 71600,
     },
@@ -871,6 +875,39 @@ class _MyExpensePageState extends State<MyExpensePage> {
     ]
   ];
 
+List<charts.Series<Map<int, double>, String>> _createSeriesData() {
+  List<Map<int, double>> data = [];
+
+  final monthsInNumbers = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August': 8,
+    'September': 9,
+    'October': 10,
+    'November': 11,
+    'December': 12,
+  };
+
+  expenseData.forEach((month, expenses) {
+    double totalExpense = expenses.values.reduce((a, b) => a + b);
+    int monthNumber = monthsInNumbers[month]!;
+    data.add({monthNumber: totalExpense});
+  });
+
+  return [
+    charts.Series<Map<int, double>, String>(
+      id: 'Expenses',
+      data: data,
+      domainFn: (Map<int, double> expenses, _) => expenses.keys.first.toString(),
+      measureFn: (Map<int, double> expenses, _) => expenses.values.first,
+    )
+  ];
+}
   @override
   Widget build(BuildContext context) {
     final chart = PieChart(
@@ -903,22 +940,49 @@ class _MyExpensePageState extends State<MyExpensePage> {
     return Scaffold(
       backgroundColor:
           Color.fromARGB(255, 247, 251, 248), // Set the background color here
-      body: SingleChildScrollView(
+      body: Padding(
+      padding: EdgeInsets.only(top: 70), 
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Text(
+                'My Expense',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  child: Text("Month"),
+                  onPressed: () {
+                    setState(() {
+                      isMonthView = true;
+                    });
+                  },
+                ),
+                TextButton(
+                  child: Text("Year"),
+                  onPressed: () {
+                    setState(() {
+                      isMonthView = false;
+                    });
+                  },
+                ),
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 8,
+              ),
+              child: Column(
                 children: [
-                  Text(
-                    '$dropdownValue\'s Expense',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   DropdownButton<String>(
                     value: dropdownValue,
                     items: <String>[
@@ -954,20 +1018,6 @@ class _MyExpensePageState extends State<MyExpensePage> {
                       });
                     },
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Divider(
-              height: 1,
-              color: Color(0xFF1B5E20),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 32,
-              ),
-              child: Column(
-                children: [
                   Text(
                     '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
                     style: TextStyle(
@@ -976,15 +1026,52 @@ class _MyExpensePageState extends State<MyExpensePage> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  chart,
+                  isMonthView ? chart : SizedBox(
+                    height: 200,
+                    child: charts.BarChart(
+                      _createSeriesData(),
+                      animate: true,
+                      primaryMeasureAxis: new charts.NumericAxisSpec(
+            renderSpec: charts.GridlineRendererSpec(
+              labelStyle: new charts.TextStyleSpec(
+                fontSize: 14,
+                color: charts.MaterialPalette.black,
+              ),
+            ),
+            tickProviderSpec: charts.BasicNumericTickProviderSpec(
+              desiredTickCount: 3,
+            ),
+          ),
+          domainAxis: new charts.OrdinalAxisSpec(
+            renderSpec: charts.SmallTickRendererSpec(
+              labelStyle: new charts.TextStyleSpec(
+                fontSize: 14,
+                color: charts.MaterialPalette.black,
+              ),
+            ),
+          ),
+          behaviors: [
+            new charts.ChartTitle(
+              'Month',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+            ),
+            new charts.ChartTitle(
+              'Total Expense',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+            ),
+                ],),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
-    );
+    ));
   }
+
 }
 
 class MySpendingPage extends StatefulWidget {
