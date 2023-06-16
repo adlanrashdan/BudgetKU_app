@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
@@ -532,7 +531,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final userNow = userList[1];
+    final userNow = userList[2];
     return Scaffold(
         body: Container(
             width: double
@@ -875,39 +874,44 @@ class _MyExpensePageState extends State<MyExpensePage> {
     ]
   ];
 
-List<charts.Series<Map<int, double>, String>> _createSeriesData() {
-  List<Map<int, double>> data = [];
+  List<charts.Series<Map<int, double>, String>> _createSeriesData() {
+    List<Map<int, double>> data = [];
 
-  final monthsInNumbers = {
-    'January': 1,
-    'February': 2,
-    'March': 3,
-    'April': 4,
-    'May': 5,
-    'June': 6,
-    'July': 7,
-    'August': 8,
-    'September': 9,
-    'October': 10,
-    'November': 11,
-    'December': 12,
-  };
+    final monthsInNumbers = {
+      'January': 1,
+      'February': 2,
+      'March': 3,
+      'April': 4,
+      'May': 5,
+      'June': 6,
+      'July': 7,
+      'August': 8,
+      'September': 9,
+      'October': 10,
+      'November': 11,
+      'December': 12,
+    };
 
-  expenseData.forEach((month, expenses) {
-    double totalExpense = expenses.values.reduce((a, b) => a + b);
-    int monthNumber = monthsInNumbers[month]!;
-    data.add({monthNumber: totalExpense});
-  });
+    expenseData.forEach((month, expenses) {
+      double totalExpense = expenses.values.reduce((a, b) => a + b);
+      int monthNumber = monthsInNumbers[month]!;
+      data.add({monthNumber: totalExpense});
+    });
 
-  return [
-    charts.Series<Map<int, double>, String>(
-      id: 'Expenses',
-      data: data,
-      domainFn: (Map<int, double> expenses, _) => expenses.keys.first.toString(),
-      measureFn: (Map<int, double> expenses, _) => expenses.values.first,
-    )
-  ];
+    return [
+      charts.Series<Map<int, double>, String>(
+        id: 'Expenses',
+        data: data,
+        domainFn: (Map<int, double> expenses, _) => expenses.keys.first.toString(),
+        measureFn: (Map<int, double> expenses, _) => expenses.values.first,
+      )
+    ];
+  }
+  Color getBorderColor(bool isPressed) {
+  return isPressed ? Colors.green : Colors.transparent;
 }
+
+
   @override
   Widget build(BuildContext context) {
     final chart = PieChart(
@@ -938,50 +942,102 @@ List<charts.Series<Map<int, double>, String>> _createSeriesData() {
     );
 
     return Scaffold(
-      backgroundColor:
-          Color.fromARGB(255, 247, 251, 248), // Set the background color here
+      backgroundColor: Color.fromARGB(255, 247, 251, 248), // Set the background color here
       body: Padding(
-      padding: EdgeInsets.only(top: 70), 
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'My Expense',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.only(top: 50),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'My Expense',
+                  style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1B5E20),
+                        ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  child: Text("Month"),
-                  onPressed: () {
-                    setState(() {
-                      isMonthView = true;
-                    });
-                  },
-                ),
-                TextButton(
-                  child: Text("Year"),
-                  onPressed: () {
-                    setState(() {
-                      isMonthView = false;
-                    });
-                  },
-                ),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 8,
+              SizedBox(height: 16),
+                    Divider(
+                      height: 1,
+                      color: Color(0xFF1B5E20),
+                    ),
+                     SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+  onPressed: () {
+    setState(() {
+      isMonthView = true;
+    });
+  },
+  style: ButtonStyle(
+    padding: MaterialStateProperty.all<EdgeInsets>(
+      EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    ),
+    backgroundColor: MaterialStateColor.resolveWith((states) {
+      return getBorderColor(states.contains(MaterialState.pressed));
+    }),
+    side: MaterialStateProperty.all<BorderSide>(
+      BorderSide(color: getBorderColor(isMonthView), width: 2.0),
+    ),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+  ),
+  child: Text(
+    "Month",
+    style: TextStyle(
+      fontSize: 15,
+      fontWeight: isMonthView ? FontWeight.bold : FontWeight.normal,
+      color: isMonthView ? Colors.green : Colors.green,
+    ),
+    textAlign: TextAlign.center,
+  ),
+),
+TextButton(
+  onPressed: () {
+    setState(() {
+      isMonthView = false;
+    });
+  },
+  style: ButtonStyle(
+    padding: MaterialStateProperty.all<EdgeInsets>(
+      EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    ),
+    backgroundColor: MaterialStateColor.resolveWith((states) {
+      return getBorderColor(states.contains(MaterialState.pressed));
+    }),
+    side: MaterialStateProperty.all<BorderSide>(
+      BorderSide(color: getBorderColor(!isMonthView), width: 2.0),
+    ),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+  ),
+  child: Text(
+    "Year",
+    style: TextStyle(
+      fontSize: 15,
+      fontWeight: !isMonthView ? FontWeight.bold : FontWeight.normal,
+      color: !isMonthView ? Colors.green : Colors.green,
+    ),
+    textAlign: TextAlign.center,
+  ),
+),
+                ],
               ),
-              child: Column(
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   DropdownButton<String>(
                     value: dropdownValue,
@@ -1025,53 +1081,65 @@ List<charts.Series<Map<int, double>, String>> _createSeriesData() {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  isMonthView ? chart : SizedBox(
-                    height: 200,
-                    child: charts.BarChart(
-                      _createSeriesData(),
-                      animate: true,
-                      primaryMeasureAxis: new charts.NumericAxisSpec(
-            renderSpec: charts.GridlineRendererSpec(
-              labelStyle: new charts.TextStyleSpec(
-                fontSize: 14,
-                color: charts.MaterialPalette.black,
-              ),
-            ),
-            tickProviderSpec: charts.BasicNumericTickProviderSpec(
-              desiredTickCount: 3,
-            ),
-          ),
-          domainAxis: new charts.OrdinalAxisSpec(
-            renderSpec: charts.SmallTickRendererSpec(
-              labelStyle: new charts.TextStyleSpec(
-                fontSize: 14,
-                color: charts.MaterialPalette.black,
-              ),
-            ),
-          ),
-          behaviors: [
-            new charts.ChartTitle(
-              'Month',
-              behaviorPosition: charts.BehaviorPosition.bottom,
-              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-            ),
-            new charts.ChartTitle(
-              'Total Expense',
-              behaviorPosition: charts.BehaviorPosition.start,
-              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
-            ),
-                ],),
-                  ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 16),
+              isMonthView
+                  ? chart
+                  : SizedBox(
+                      height: 300,
+                      child: charts.BarChart(
+                        _createSeriesData(),
+                        animate: true,
+                        primaryMeasureAxis: charts.NumericAxisSpec(
+                          renderSpec: charts.GridlineRendererSpec(
+                            labelStyle: charts.TextStyleSpec(
+                              fontSize: 14,
+                              color: charts.MaterialPalette.black,
+                            ),
+                          ),
+                          tickProviderSpec: charts.BasicNumericTickProviderSpec(
+                            desiredTickCount: 3,
+                          ),
+                        ),
+                        domainAxis: charts.OrdinalAxisSpec(
+                          renderSpec: charts.SmallTickRendererSpec(
+                            labelStyle: charts.TextStyleSpec(
+                              fontSize: 14,
+                              color: charts.MaterialPalette.black,
+                            ),
+                          ),
+                        ),
+                       behaviors: [
+  charts.ChartTitle(
+    'Month',
+    behaviorPosition: charts.BehaviorPosition.bottom,
+    titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+    titleStyleSpec: charts.TextStyleSpec(
+      color: charts.MaterialPalette.black,
+      fontSize: 14,
+      fontWeight: 'bold',
+    ),
+  ),
+  charts.ChartTitle(
+    'Total Expense',
+    behaviorPosition: charts.BehaviorPosition.start,
+    titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+    titleStyleSpec: charts.TextStyleSpec(
+      color: charts.MaterialPalette.black,
+      fontSize: 14,
+      fontWeight: 'bold',
+    ),
+  ),
+],
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
-
 }
 
 class MySpendingPage extends StatefulWidget {
@@ -1081,7 +1149,7 @@ class MySpendingPage extends StatefulWidget {
 }
 
 class _MySpendingPageState extends State<MySpendingPage> {
-  String dropdownValue = 'June';
+  String dropdownValue = 'January';
   double totalSpend = 0;
   double budget = 1000000;
   Months thisMonth = jan;
@@ -1418,7 +1486,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                             style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -1721,7 +1789,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50.0), // Add space here
+              const SizedBox(height: 20.0), // Add space here
               Center(
                 child: Text(
                   'Grocery Calculator',
@@ -1906,7 +1974,7 @@ class MyDebtPage extends StatefulWidget {
 }
 
 class _MyDebtPageState extends State<MyDebtPage> {
-  String dropdownValue = 'June';
+  String dropdownValue = 'January';
   List<TableRow> tableRows = [];
   List<TableRow> paidTableRows = [];
   List<TableRow> nonPaidTableRows = [];
@@ -2443,7 +2511,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                                   ? Colors.green
                                                   : Colors.red,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 13,
+                                              fontSize: 16,
                                             ),
                                           ),
                                         ),
@@ -2455,7 +2523,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                             textScaleFactor: 1.5,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 12,
+                                              fontSize: 13,
                                             ),
                                           ),
                                           SizedBox(height: 4),
