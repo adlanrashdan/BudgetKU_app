@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+
 
 void main() {
   runApp(const MaterialApp(
@@ -19,8 +21,7 @@ class WelcomePage extends StatefulWidget {
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage>
-    with SingleTickerProviderStateMixin {
+class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -50,31 +51,24 @@ class _WelcomePageState extends State<WelcomePage>
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFCAFFDC),
-                  Color(0xFFCAFFDC),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+          Image.asset(
+            'assets/images/background_img.jpg', // Replace with your own image path
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FadeTransition(
-                  opacity: _animation,
-                  child: Image.asset(
-                    'assets/images/app_logo.png',
-                    width: 160,
-                    height: 160,
-                  ),
+                 FadeTransition(
+                opacity: _animation,
+                child: CircleAvatar(
+                  radius: 80,
+                  backgroundImage: AssetImage('assets/images/app_logo.jpg'),
                 ),
-                const SizedBox(height: 32),
+              ),
+                const SizedBox(height: 49),
                 Text(
                   'BUDGETKU',
                   style: TextStyle(
@@ -105,8 +99,7 @@ class _WelcomePageState extends State<WelcomePage>
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
                       );
                     },
                     child: Center(
@@ -474,13 +467,17 @@ class _MyPageState extends State<MyPage> {
             children: [
               Icon(
                 icon,
-                color: isSelected ? Colors.white : Color.fromARGB(255, 10, 66, 12),
+                color:
+                    isSelected ? Colors.white : Color.fromARGB(255, 10, 66, 12),
               ),
               SizedBox(height: 4.0),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? Colors.white :Color.fromARGB(255, 10, 66, 12),
+                    fontSize: 12.0,
+                  color: isSelected
+                      ? Colors.white
+                      : Color.fromARGB(255, 10, 66, 12),
                 ),
               ),
             ],
@@ -491,27 +488,26 @@ class _MyPageState extends State<MyPage> {
   }
 
   Widget _buildCenterFab() {
-  final isSelected = _currentIndex == 2; // Check if My Spending is selected
+    final isSelected = _currentIndex == 2; // Check if My Spending is selected
 
-  return Container(
-    width: 65.0,
-    height: 65.0,
-    child: FloatingActionButton(
-      onPressed: () {
-        setState(() {
-          _currentIndex = 2; // Set the current index to My Spending page
-        });
-      },
-      backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
-      child: Icon(
-        Icons.edit, 
-        size: 32.0,
-        color: isSelected ? const Color(0xFF58906E) : Colors.white,
+    return Container(
+      width: 65.0,
+      height: 65.0,
+      child: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _currentIndex = 2; // Set the current index to My Spending page
+          });
+        },
+        backgroundColor: isSelected ? Colors.white : const Color(0xFF58906E),
+        child: Icon(
+          Icons.edit,
+          size: 28.0,
+          color: isSelected ? const Color(0xFF58906E) : Colors.white,
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class MyProfile extends StatefulWidget {
@@ -536,7 +532,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final userNow = userList[2];
+    final userNow = userList[1];
     return Scaffold(
         body: Container(
             width: double
@@ -748,90 +744,92 @@ class MyExpensePage extends StatefulWidget {
 
 class _MyExpensePageState extends State<MyExpensePage> {
   String dropdownValue = 'January'; // Default dropdown value
+  bool isMonthView = true; // initialize the view as Month view
+
   final Map<String, Map<String, double>> expenseData = {
     'January': {
-      'Rent': 750000,
-      'Utilities': 150000,
-      'Transportation': 100000,
-      'Food': 400000,
-      'Entertainment': 80000,
+      "Rent": 367800,
+      "Utilities": 83300,
+      "Transportation": 15900,
+      "Food": 10700,
+      "Entertainment": 4500,
     },
     'February': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 380000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 9600,
+      "Transportation": 18900,
+      "Food": 36700,
+      "Entertainment": 11800,
     },
     'March': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 100000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 360000,
+      "Utilities": 8900,
+      "Transportation": 20000,
+      "Food": 51650,
+      "Entertainment": 71600,
     },
     'April': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 3700,
+      "Transportation": 16000,
+      "Food": 24660,
+      "Entertainment": 14400,
     },
     'May': {
-      'Rent': 730000,
-      'Utilities': 150000,
-      'Transportation': 105000,
-      'Food': 400000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 8700,
+      "Transportation": 11600,
+      "Food": 31820,
+      "Entertainment": 4300,
     },
     'June': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 390000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9000,
+      "Transportation": 30000,
+      "Food": 23750,
+      "Entertainment": 20000,
     },
     'July': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 105000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 367800,
+      "Utilities": 83300,
+      "Transportation": 15900,
+      "Food": 10700,
+      "Entertainment": 4500,
     },
     'August': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9600,
+      "Transportation": 18900,
+      "Food": 36700,
+      "Entertainment": 11800,
     },
     'September': {
-      'Rent': 730000,
-      'Utilities': 150000,
-      'Transportation': 105000,
-      'Food': 400000,
-      'Entertainment': 90000,
+      "Rent": 360000,
+      "Utilities": 8900,
+      "Transportation": 22000,
+      "Food": 51650,
+      "Entertainment": 71600,
     },
     'October': {
-      'Rent': 720000,
-      'Utilities': 140000,
-      'Transportation': 100000,
-      'Food': 390000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 3700,
+      "Transportation": 6600,
+      "Food": 24660,
+      "Entertainment": 14400,
     },
     'November': {
-      'Rent': 750000,
-      'Utilities': 160000,
-      'Transportation': 105000,
-      'Food': 420000,
-      'Entertainment': 95000,
+      "Rent": 360000,
+      "Utilities": 8700,
+      "Transportation": 11600,
+      "Food": 31820,
+      "Entertainment": 4300,
     },
     'December': {
-      'Rent': 700000,
-      'Utilities': 140000,
-      'Transportation': 95000,
-      'Food': 380000,
-      'Entertainment': 85000,
+      "Rent": 360000,
+      "Utilities": 9000,
+      "Transportation": 6600,
+      "Food": 49984,
+      "Entertainment": 9500,
     },
   };
 
@@ -877,6 +875,39 @@ class _MyExpensePageState extends State<MyExpensePage> {
     ]
   ];
 
+List<charts.Series<Map<int, double>, String>> _createSeriesData() {
+  List<Map<int, double>> data = [];
+
+  final monthsInNumbers = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August': 8,
+    'September': 9,
+    'October': 10,
+    'November': 11,
+    'December': 12,
+  };
+
+  expenseData.forEach((month, expenses) {
+    double totalExpense = expenses.values.reduce((a, b) => a + b);
+    int monthNumber = monthsInNumbers[month]!;
+    data.add({monthNumber: totalExpense});
+  });
+
+  return [
+    charts.Series<Map<int, double>, String>(
+      id: 'Expenses',
+      data: data,
+      domainFn: (Map<int, double> expenses, _) => expenses.keys.first.toString(),
+      measureFn: (Map<int, double> expenses, _) => expenses.values.first,
+    )
+  ];
+}
   @override
   Widget build(BuildContext context) {
     final chart = PieChart(
@@ -907,24 +938,51 @@ class _MyExpensePageState extends State<MyExpensePage> {
     );
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 247, 251,
-                248), // Set the background color here
-      body: SingleChildScrollView(
+      backgroundColor:
+          Color.fromARGB(255, 247, 251, 248), // Set the background color here
+      body: Padding(
+      padding: EdgeInsets.only(top: 70), 
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Text(
+                'My Expense',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  child: Text("Month"),
+                  onPressed: () {
+                    setState(() {
+                      isMonthView = true;
+                    });
+                  },
+                ),
+                TextButton(
+                  child: Text("Year"),
+                  onPressed: () {
+                    setState(() {
+                      isMonthView = false;
+                    });
+                  },
+                ),
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 8,
+              ),
+              child: Column(
                 children: [
-                  Text(
-                    '$dropdownValue\'s Expense',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   DropdownButton<String>(
                     value: dropdownValue,
                     items: <String>[
@@ -960,20 +1018,6 @@ class _MyExpensePageState extends State<MyExpensePage> {
                       });
                     },
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 32,
-              ),
-              child: Column(
-                children: [
                   Text(
                     '${NumberFormat('#,##0').format(calculateTotalExpense(dropdownValue).toInt())}₩',
                     style: TextStyle(
@@ -982,15 +1026,52 @@ class _MyExpensePageState extends State<MyExpensePage> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  chart,
+                  isMonthView ? chart : SizedBox(
+                    height: 200,
+                    child: charts.BarChart(
+                      _createSeriesData(),
+                      animate: true,
+                      primaryMeasureAxis: new charts.NumericAxisSpec(
+            renderSpec: charts.GridlineRendererSpec(
+              labelStyle: new charts.TextStyleSpec(
+                fontSize: 14,
+                color: charts.MaterialPalette.black,
+              ),
+            ),
+            tickProviderSpec: charts.BasicNumericTickProviderSpec(
+              desiredTickCount: 3,
+            ),
+          ),
+          domainAxis: new charts.OrdinalAxisSpec(
+            renderSpec: charts.SmallTickRendererSpec(
+              labelStyle: new charts.TextStyleSpec(
+                fontSize: 14,
+                color: charts.MaterialPalette.black,
+              ),
+            ),
+          ),
+          behaviors: [
+            new charts.ChartTitle(
+              'Month',
+              behaviorPosition: charts.BehaviorPosition.bottom,
+              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+            ),
+            new charts.ChartTitle(
+              'Total Expense',
+              behaviorPosition: charts.BehaviorPosition.start,
+              titleOutsideJustification: charts.OutsideJustification.middleDrawArea,
+            ),
+                ],),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
-    );
+    ));
   }
+
 }
 
 class MySpendingPage extends StatefulWidget {
@@ -1000,7 +1081,7 @@ class MySpendingPage extends StatefulWidget {
 }
 
 class _MySpendingPageState extends State<MySpendingPage> {
-  String dropdownValue = 'January';
+  String dropdownValue = 'June';
   double totalSpend = 0;
   double budget = 1000000;
   Months thisMonth = jan;
@@ -1144,7 +1225,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 13,
                 ),
               ),
             ),
@@ -1282,6 +1363,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
               child: Text('Cancel'),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.green),
               onPressed: () {
                 setState(() {
                   String title = titleController.text;
@@ -1336,7 +1418,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                             style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -1347,7 +1429,7 @@ class _MySpendingPageState extends State<MySpendingPage> {
                   );
 
                   tableRows.add(newRow);
-                  totalSpend+=int.parse(amount);
+                  totalSpend += int.parse(amount);
 
                   titleController.clear();
                   amountController.clear();
@@ -1632,8 +1714,7 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 247, 251,
-                248),
+      backgroundColor: Color.fromARGB(255, 247, 251, 248),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -1647,15 +1728,15 @@ class _GroceriesCalculatorPageState extends State<GroceriesCalculatorPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B5E20),
+                    color: Color(0xFF1B5E20),
                   ),
                 ),
               ),
               SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),
+              Divider(
+                height: 1,
+                color: Color(0xFF1B5E20),
+              ),
               const SizedBox(height: 16.0),
               Text('Today\'s Budget: ${NumberFormat('#,###').format(budget)}₩'),
               TextField(
@@ -1803,8 +1884,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
-           style: ElevatedButton.styleFrom(
-                    primary: Colors.green),
+          style: ElevatedButton.styleFrom(primary: Colors.green),
           onPressed: () {
             if (_formKey.currentState?.validate() ?? false) {
               _formKey.currentState?.save();
@@ -1826,7 +1906,7 @@ class MyDebtPage extends StatefulWidget {
 }
 
 class _MyDebtPageState extends State<MyDebtPage> {
-  String dropdownValue = 'January';
+  String dropdownValue = 'June';
   List<TableRow> tableRows = [];
   List<TableRow> paidTableRows = [];
   List<TableRow> nonPaidTableRows = [];
@@ -1871,119 +1951,123 @@ class _MyDebtPageState extends State<MyDebtPage> {
   }
 
   void generateRandomTableRows() {
-    tableRows.clear();
-    paidTableRows.clear();
-    nonPaidTableRows.clear();
+  tableRows.clear();
+  paidTableRows.clear();
+  nonPaidTableRows.clear();
 
-    int rowCount =
-        random.nextInt(6) + 1; // Random number of rows between 1 and 6
-    final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
-    final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
-    final List<String> personList = [
-      'Wani',
-      'Jennie',
-      'Miyeon',
-      'Yeran',
-      'Adlan',
-      'Jani',
-      'Emily',
-      'Lee',
-      'Hong'
-    ];
-    final List<String> titleList = [
-      'Mcdonald',
-      'Travel',
-      'Event',
-      'Drink',
-      'Travel',
-      'Dayout',
-      'Party',
-      'Cafe',
-      'Lunch',
-      'Dinner'
-    ];
+  int rowCount = random.nextInt(6) + 1; // Random number of rows between 1 and 6
+  final List<int> amountList = [1000, 15000, 25000, 5000, 8000, 100000];
+  final List<int> totalAmountList = [50000, 100000, 200000, 300000, 50000];
+  final List<String> personList = [
+    'Wani',
+    'Jennie',
+    'Miyeon',
+    'Yeran',
+    'Adlan',
+    'Jani',
+    'Emily',
+    'Lee',
+    'Hong'
+  ];
+  final List<String> titleList = [
+    'Mcd',
+    'Travel',
+    'Event',
+    'Drink',
+    'Travel',
+    'Dayout',
+    'Party',
+    'Cafe',
+    'Lunch',
+    'Dinner'
+  ];
 
-    for (int i = 0; i < rowCount; i++) {
-      String title = titleList[random.nextInt(titleList.length)];
-      String month = getMonthNumber(dropdownValue);
-      String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
-      String date = '$day/$month/2023';
-      String amount =
-          (amountList[random.nextInt(amountList.length)] - 9000).toString();
-      String totalAmount =
-          (totalAmountList[random.nextInt(totalAmountList.length)] - 100)
-              .toString();
-      String person = personList[random.nextInt(personList.length)];
+  DateTime now = DateTime.now();
 
-      TableRow newRow = TableRow(
-        children: [
-          Column(
-            children: [
-              Text(
-                title,
-                textScaleFactor: 1.5,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+  for (int i = 0; i < rowCount; i++) {
+    String title = titleList[random.nextInt(titleList.length)];
+    String month = getMonthNumber(dropdownValue);
+    String day = (random.nextInt(30) + 1).toString().padLeft(2, '0');
+    DateTime randomDate = DateTime(now.year, int.parse(month), int.parse(day));
+    
+    // Skip rows with dates after today
+    if (randomDate.isAfter(now)) {
+      continue;
+    }
+
+    String date = '$day/$month/${now.year}';
+    String amount = (amountList[random.nextInt(amountList.length)] - 9000).toString();
+    String totalAmount = (totalAmountList[random.nextInt(totalAmountList.length)] - 100).toString();
+    String person = personList[random.nextInt(personList.length)];
+
+    TableRow newRow = TableRow(
+      children: [
+        Column(
+          children: [
+            Text(
+              title,
+              textScaleFactor: 1.5,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              SizedBox(height: 4),
-              Text(
-                date,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              date,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
               ),
-            ],
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                '($amount KRW)',
-                textScaleFactor: 1.3,
-                style: TextStyle(
-                  color: amount.startsWith('-') ? Colors.red : Colors.green,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              '($amount KRW)',
+              textScaleFactor: 1.3,
+              style: TextStyle(
+                color: amount.startsWith('-') ? Colors.red : Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
               ),
             ),
           ),
-          Column(
-            children: [
-              Text(
-                '$totalAmount KRW',
-                textScaleFactor: 1.5,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
+        ),
+        Column(
+          children: [
+            Text(
+              '$totalAmount KRW',
+              textScaleFactor: 1.5,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
               ),
-              SizedBox(height: 4),
-              Text(
-                person,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              person,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
               ),
-            ],
-          ),
-        ],
-      );
+            ),
+          ],
+        ),
+      ],
+    );
 
-      tableRows.add(newRow);
+    tableRows.add(newRow);
 
-      int paidRowCount = random.nextInt(tableRows.length);
-      int nonPaidRowCount = tableRows.length - paidRowCount;
+    int paidRowCount = random.nextInt(tableRows.length);
+    int nonPaidRowCount = tableRows.length - paidRowCount;
 
-      paidTableRows = List.generate(
-          paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
-      nonPaidTableRows =
-          tableRows.where((row) => !paidTableRows.contains(row)).toList();
-    }
+    paidTableRows = List.generate(paidRowCount, (index) => tableRows[random.nextInt(tableRows.length)]);
+    nonPaidTableRows = tableRows.where((row) => !paidTableRows.contains(row)).toList();
   }
+}
+
 
   void settleDebt(int index) {
     setState(() {
@@ -2016,23 +2100,23 @@ class _MyDebtPageState extends State<MyDebtPage> {
         child: SafeArea(
           child: ListView(
             children: [
-              SizedBox(height: 50),
-                    Center(
-                      child: Text(
-                        'My Debt',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1B5E20),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Divider(
-                      height: 1,
-                      color: Color(0xFF1B5E20),
-                    ),    
+              SizedBox(height: 30),
+              Center(
+                child: Text(
+                  'My Debt',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1B5E20),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Divider(
+                height: 1,
+                color: Color(0xFF1B5E20),
+              ),
               SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -2040,7 +2124,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$dropdownValue\'s Debt Record',
+                      '$dropdownValue\'s Record',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -2312,7 +2396,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                    primary: Colors.green),
+                                  primary: Colors.green),
                               onPressed: () {
                                 setState(() {
                                   String title = titleController.text;
@@ -2359,7 +2443,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                                   ? Colors.green
                                                   : Colors.red,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 16,
+                                              fontSize: 13,
                                             ),
                                           ),
                                         ),
@@ -2371,7 +2455,7 @@ class _MyDebtPageState extends State<MyDebtPage> {
                                             textScaleFactor: 1.5,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 13,
+                                              fontSize: 12,
                                             ),
                                           ),
                                           SizedBox(height: 4),
@@ -2486,16 +2570,11 @@ Months may = Months("May", "640000", [
 ]);
 
 Months june = Months("June", "640000", [
-  Spending(DateTime(2023, 6, 5), "Front Cafe", "Food", 7500),
-  Spending(DateTime(2023, 6, 5), "Shrimp Burger", "Food", 9150),
-  Spending(DateTime(2023, 6, 7), "Electric", "Utilities", 9000),
-  Spending(DateTime(2023, 6, 7), "Market", "Food", 7100),
-  Spending(DateTime(2023, 6, 8), "House", "Rent", 360000),
-  Spending(DateTime(2023, 6, 9), "Beef Briyani", "Food", 14000),
-  Spending(DateTime(2023, 6, 15), "Spotify", "Entertainment", 9500),
-  Spending(DateTime(2023, 6, 15), "Kiwi", "Food", 2800),
-  Spending(DateTime(2023, 6, 18), "Tmoney", "Transportation", 6600),
-  Spending(DateTime(2023, 6, 19), "Ria Miracleset", "Food", 9434),
+  Spending(DateTime(2023, 6, 1), "Front Cafe", "Food", 7500),
+  Spending(DateTime(2023, 6, 1), "Shrimp Burger", "Food", 9150),
+  Spending(DateTime(2023, 6, 2), "Electric", "Utilities", 9000),
+  Spending(DateTime(2023, 6, 3), "Market", "Food", 7100),
+  Spending(DateTime(2023, 6, 3), "House", "Rent", 360000),
 ]);
 
 Months july = Months("July", "640000", [
